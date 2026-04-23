@@ -1,4 +1,6 @@
-# Requisitos do Sistema
+# Documentação de Requisitos: Order Flow API (OMS)
+
+A Order Flow API é um sistema de gerenciamento de pedidos (OMS - Order Management System) focado no controle do ciclo de vida de uma compra, desde a sua criação até a entrega final ou cancelamento.
 
 ## 1. Requisitos Funcionais (RF)
 
