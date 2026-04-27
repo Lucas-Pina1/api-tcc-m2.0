@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "test": "mocha --config tests/.mocharc.yml",
+    "test:report": "mocha --config tests/.mocharc.yml && echo Relatorio gerado em reports/fincontrol-flow-test-report.html"
   },
   "keywords": [
     "fincontrol",
@@ -24,5 +26,11 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4",
+    "supertest": "^7.2.2"
   }
 }

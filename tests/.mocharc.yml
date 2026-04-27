@@ -1,0 +1,18 @@
+# Mocha Configuration — FinControl Flow
+# Referencia: https://mochajs.org/#configuring-mocha-nodejs
+
+spec: "tests/integration/**/*.test.js"
+timeout: 10000
+recursive: true
+exit: true
+require:
+  - "tests/setup.js"
+reporter: "mochawesome"
+reporter-options:
+  - "reportDir=reports"
+  - "reportFilename=fincontrol-flow-test-report"
+  - "overwrite=true"
+  - "html=true"
+  - "json=true"
+  - "charts=true"
+  - "timestamp=false"

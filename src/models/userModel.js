@@ -60,9 +60,18 @@ function findAll() {
   return users.map(({ password, ...user }) => user);
 }
 
+/**
+ * Limpa todos os usuários do array (somente para testes).
+ * Permite isolamento entre suítes de teste.
+ */
+function clearAll() {
+  users.length = 0;
+}
+
 module.exports = {
   findByEmail,
   findById,
   create,
   findAll,
+  clearAll,
 };
