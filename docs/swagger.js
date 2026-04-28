@@ -91,6 +91,61 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
           },
         },
       },
+      Transaction: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            format: 'uuid',
+            example: 'a1b2c3d4-5678-90ab-cdef-1234567890ab',
+            description: 'Identificador único da movimentação',
+          },
+          userId: {
+            type: 'string',
+            format: 'uuid',
+            example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+            description: 'ID do usuário dono da movimentação',
+          },
+          description: {
+            type: 'string',
+            example: 'Salário',
+            description: 'Descrição da movimentação',
+          },
+          amount: {
+            type: 'number',
+            example: 5000.50,
+            description: 'Valor da movimentação',
+          },
+          date: {
+            type: 'string',
+            format: 'date',
+            example: '2026-05-05',
+            description: 'Data da movimentação',
+          },
+          type: {
+            type: 'string',
+            enum: ['receita', 'despesa'],
+            example: 'receita',
+            description: 'Categoria da movimentação',
+          },
+          status: {
+            type: 'string',
+            enum: ['pendente', 'pago'],
+            example: 'pago',
+            description: 'Status atual',
+          },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2026-04-26T14:00:00.000Z',
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+            example: '2026-04-26T14:00:00.000Z',
+          },
+        },
+      },
       SuccessResponse: {
         type: 'object',
         properties: {

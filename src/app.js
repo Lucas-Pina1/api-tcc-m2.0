@@ -2,6 +2,7 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('../docs/swagger');
 const authRoutes = require('./routes/authRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
@@ -29,6 +30,7 @@ app.get('/api/health', (_req, res) => {
 
 // ─── Rotas da Aplicação ───────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // ─── Rota 404 (catch-all) ─────────────────────────────────────
 app.use((_req, res) => {
