@@ -1,121 +1,132 @@
-# Estrategia de Testes
+# Estratégia de Testes
 
 **Projeto:** FinControl Flow
-**Versao:** 1.0
-**Sprint:** 01
-**Escopo:** Epico 01 - Gestao de Identidade e Acesso (US01, US02)
+**Versão:** 1.0
+**Sprint:** 01 e 02
+**Escopo:** Épico 01 - Gestão de Identidade e Acesso (US01, US02) e Épico 02 - Gestão de Movimentações Financeiras (US03, US04, US05)
 **Autor:** QA Team
-**Data:** 2026-04-27
+**Data:** 2026-04-29
 
 ---
 
-## 1. Visao Geral
+## 1. Visão Geral
 
-A estrategia de testes do FinControl Flow adota uma abordagem hibrida, combinando testes automatizados de API (majoritarios) com testes manuais exploratórios pontuais. A suite otimizada contem 13 casos de teste que cobrem 100% dos requisitos funcionais, regras de negocio e criterios de aceite globais para o Epico 01.
+A estratégia de testes do FinControl Flow adota uma abordagem híbrida, combinando testes automatizados de API (majoritários) com testes manuais exploratórios pontuais. A suíte otimizada contém 22 casos de teste que cobrem 100% dos requisitos funcionais, regras de negócio e critérios de aceite globais para os Épicos 01 e 02.
 
-A automacao e realizada com a stack:
+A automação é realizada com a stack:
 - **Mocha** — Test runner
 - **Chai** — Biblioteca de assertivas (expect)
 - **SuperTest** — Cliente HTTP para testes de API
-- **Mochawesome** — Geracao de relatorios HTML
+- **Mochawesome** — Geração de relatórios HTML
 
 ---
 
-## 2. Criterios de Classificacao
+## 2. Critérios de Classificação
 
-| Criterio | Automatizado | Manual |
+| Critério | Automatizado | Manual |
 |:---|:---|:---|
-| Testes de regressao | ✅ | |
-| Validacoes deterministicas de API | ✅ | |
-| Verificacao de status codes | ✅ | |
-| Verificacao de schema de resposta | ✅ | |
-| Validacao de regras de negocio via API | ✅ | |
+| Testes de regressão | ✅ | |
+| Validações determinísticas de API | ✅ | |
+| Verificação de status codes | ✅ | |
+| Verificação de schema de resposta | ✅ | |
+| Validação de regras de negócio via API | ✅ | |
 | Fluxos end-to-end de API | ✅ | |
-| Testes exploratorios | | ✅ |
-| Validacao visual de Swagger/Docs | | ✅ |
-| Cenarios de token expirado por tempo real | | ✅ |
+| Testes exploratórios | | ✅ |
+| Validação visual de Swagger/Docs | | ✅ |
+| Cenários de token expirado por tempo real | | ✅ |
 
 ---
 
-## 3. Distribuicao: Manual vs Automatizado
+## 3. Distribuição: Manual vs Automatizado
 
-### 3.1 Testes Automatizados (12 de 13)
+### 3.1 Testes Automatizados (21 de 22)
 
-| ID | Titulo | Tipo |
+| ID | Título | Tipo |
 |:---|:---|:---|
-| TC-OPT-001 | Cadastro bem-sucedido com dados validos | Automatizado |
-| TC-OPT-002 | Rejeicao de cadastro com e-mail duplicado (case-insensitive) | Automatizado |
-| TC-OPT-003 | Rejeicao de cadastro com campos obrigatorios ausentes | Automatizado |
-| TC-OPT-004 | Rejeicao de cadastro com formato de e-mail invalido | Automatizado |
-| TC-OPT-005 | Rejeicao de cadastro com senha no valor limite inferior | Automatizado |
-| TC-OPT-006 | Login bem-sucedido com credenciais validas | Automatizado |
-| TC-OPT-007 | Rejeicao de login com credenciais invalidas (anti-enumeracao) | Automatizado |
-| TC-OPT-008 | Rejeicao de login com campos obrigatorios ausentes | Automatizado |
-| TC-OPT-009 | Acesso autorizado a rota protegida com token valido | Automatizado |
-| TC-OPT-010 | Rejeicao de acesso sem token | Automatizado |
-| TC-OPT-011 | Rejeicao de acesso com token invalido ou adulterado | Automatizado |
+| TC-OPT-001 | Cadastro bem-sucedido com dados válidos | Automatizado |
+| TC-OPT-002 | Rejeição de cadastro com e-mail duplicado (case-insensitive) | Automatizado |
+| TC-OPT-003 | Rejeição de cadastro com campos obrigatórios ausentes | Automatizado |
+| TC-OPT-004 | Rejeição de cadastro com formato de e-mail inválido | Automatizado |
+| TC-OPT-005 | Rejeição de cadastro com senha no valor limite inferior | Automatizado |
+| TC-OPT-006 | Login bem-sucedido com credenciais válidas | Automatizado |
+| TC-OPT-007 | Rejeição de login com credenciais inválidas (anti-enumeração) | Automatizado |
+| TC-OPT-008 | Rejeição de login com campos obrigatórios ausentes | Automatizado |
+| TC-OPT-009 | Acesso autorizado a rota protegida com token válido | Automatizado |
+| TC-OPT-010 | Rejeição de acesso sem token | Automatizado |
+| TC-OPT-011 | Rejeição de acesso com token inválido ou adulterado | Automatizado |
 | TC-OPT-013 | Fluxo integrado E2E: Cadastro, Login e Profile | Automatizado |
+| TC-OPT-014 | Cadastro de movimentação de receita/despesa com sucesso | Automatizado |
+| TC-OPT-015 | Rejeição de criação com valores inválidos (Regras Limite) | Automatizado |
+| TC-OPT-016 | Rejeição de criação com campos ausentes ou não permitidos | Automatizado |
+| TC-OPT-017 | Alteração de status para pago bem-sucedida | Automatizado |
+| TC-OPT-018 | Rejeição de transição inválida de status (RN05) | Automatizado |
+| TC-OPT-019 | Proteção contra alteração de movimentação de terceiros ou inexistente | Automatizado |
+| TC-OPT-020 | Exclusão de movimentação pendente com sucesso | Automatizado |
+| TC-OPT-021 | Rejeição de exclusão de movimentação efetivada (RN06) | Automatizado |
+| TC-OPT-022 | Proteção contra exclusao de movimentação de terceiros ou inexistente | Automatizado |
 
-### 3.2 Testes Manuais (1 de 13)
+### 3.2 Testes Manuais (1 de 22)
 
-| ID | Titulo | Tipo |
+| ID | Título | Tipo |
 |:---|:---|:---|
-| TC-OPT-012 | Rejeicao de acesso com token expirado | Manual |
+| TC-OPT-012 | Rejeição de acesso com token expirado | Manual |
 
-**Observacao:** O TC-OPT-012 exige um token que tenha expirado naturalmente pelo tempo configurado (1h). Embora seja possivel gerar um token com expiracao curta para automacao, a validacao mais fiel ao ambiente real requer execucao manual ou mock controlado do tempo. A implementacao automatizada com token fabricado e fornecida como complemento.
+**Observação:** O TC-OPT-012 exige um token que tenha expirado naturalmente pelo tempo configurado (1h). Embora seja possível gerar um token com expiração curta para automação, a validação mais fiel ao ambiente real requer execução manual ou mock controlado do tempo. A implementação automatizada com token fabricado é fornecida como complemento.
 
 ---
 
-## 4. Metricas da Estrategia
+## 4. Métricas da Estratégia
 
-| Metrica | Valor |
+| Métrica | Valor |
 |:---|:---|
-| Total de casos de teste | 13 |
-| Automatizados | 12 (92,3%) |
-| Manuais | 1 (7,7%) |
-| Cobertura de Requisitos (RF01, RF02) | 100% |
-| Cobertura de Regras de Negocio (RN01) | 100% |
-| Cobertura de CAGs (CAG01, CAG02, CAG05) | 100% |
+| Total de casos de teste | 22 |
+| Automatizados | 21 (95,5%) |
+| Manuais | 1 (4,5%) |
+| Cobertura de Requisitos (RF01, RF02, RF03, RF04, RF07) | 100% |
+| Cobertura de Regras de Negócio (RN01, RN02, RN04, RN05, RN06) | 100% |
+| Cobertura de CAGs (CAG01, CAG02, CAG04, CAG05) | 100% |
 
 ---
 
-## 5. Arquitetura de Automacao
+## 5. Arquitetura de Automação
 
 ```
 tests/
 ├── helpers/
-│   ├── request.js            # Instancia SuperTest com app
-│   ├── auth.helper.js        # Funcoes de registro e login reutilizaveis
+│   ├── request.js            # Instância SuperTest com app
+│   ├── auth.helper.js        # Funções de registro e login reutilizáveis
 │   └── cleanup.helper.js     # Limpeza de estado entre testes
 ├── fixtures/
-│   ├── users.fixture.js      # Dados de usuarios para testes
-│   └── tokens.fixture.js     # Tokens invalidos/expirados para testes
+│   ├── users.fixture.js      # Dados de usuários para testes
+│   ├── tokens.fixture.js     # Tokens inválidos/expirados para testes
+│   └── transactions.fixture.js # Dados de movimentações financeiras
 ├── integration/
 │   ├── register.test.js      # TC-OPT-001 a TC-OPT-005
 │   ├── login.test.js          # TC-OPT-006 a TC-OPT-008
 │   ├── profile.test.js        # TC-OPT-009 a TC-OPT-012
-│   └── e2e-auth-flow.test.js  # TC-OPT-013
-├── .mocharc.yml               # Configuracao do Mocha
+│   ├── e2e-auth-flow.test.js  # TC-OPT-013
+│   └── transactions.test.js   # TC-OPT-014 a TC-OPT-022
+├── .mocharc.yml               # Configuração do Mocha
 └── setup.js                   # Setup global (hooks before/after)
 ```
 
 ---
 
-## 6. Diretrizes para Evolucao (Proxima Sprint)
+## 6. Diretrizes para Evolução (Próxima Sprint)
 
-### 6.1 Expansao do Escopo
-- Automatizar testes do Epico 02 (US03 a US05): Movimentacoes financeiras
-- Criar fixtures para movimentacoes (receitas e despesas)
-- Adicionar pasta `tests/integration/transactions/`
+### 6.1 Expansão do Escopo
+- Automatizar testes do Épico 03: Filtros e Dashboards
+- Validar listagem de movimentações por período e status
+- Adicionar pasta `tests/integration/reports/` e testes para dashboard
 
-### 6.2 Evolucao Tecnica
-- Implementar CI/CD com execucao automatica dos testes
+### 6.2 Evolução Técnica
+- Implementar CI/CD com execução automática dos testes
 - Adicionar testes de contrato (schema validation com Joi ou AJV)
-- Configurar threshold minimo de cobertura (90%)
-- Integrar relatorio Mochawesome ao pipeline de CI
+- Configurar threshold mínimo de cobertura (90%)
+- Integrar relatório Mochawesome ao pipeline de CI
 
-### 6.3 Padroes Obrigatorios
-- Todo novo teste deve seguir o padrao de nomenclatura: `describe > context > it`
+### 6.3 Padrões Obrigatórios
+- Todo novo teste deve seguir o padrão de nomenclatura: `describe > context > it`
 - Fixtures devem ser utilizadas para dados de entrada
-- Helpers devem ser utilizados para operacoes reutilizaveis
-- Nenhum teste deve depender da ordem de execucao de outro
+- Helpers devem ser utilizados para operações reutilizáveis
+- Nenhum teste deve depender da ordem de execução de outro
