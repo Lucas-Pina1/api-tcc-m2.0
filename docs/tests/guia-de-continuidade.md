@@ -19,12 +19,14 @@ tests/
 │   └── cleanup.helper.js      # clearUsers() — reset do estado
 ├── fixtures/
 │   ├── users.fixture.js       # Payloads de usuário (VALID, INVALID, MISSING)
-│   └── tokens.fixture.js      # Tokens adulterados e expirados
+│   ├── tokens.fixture.js      # Tokens adulterados e expirados
+│   └── transactions.fixture.js# Payloads de movimentações financeiras
 └── integration/
     ├── register.test.js       # TC-OPT-001 a TC-OPT-005 (12 asserts)
     ├── login.test.js           # TC-OPT-006 a TC-OPT-008 (10 asserts)
     ├── profile.test.js         # TC-OPT-009 a TC-OPT-012 (7 asserts)
-    └── e2e-auth-flow.test.js   # TC-OPT-013 (1 fluxo completo)
+    ├── e2e-auth-flow.test.js   # TC-OPT-013 (1 fluxo completo)
+    └── transactions.test.js    # Testes do Épico 02 (US03, US04, US05)
 
 reports/                        # Relatórios HTML/JSON gerados pelo Mochawesome
 ```
@@ -83,7 +85,7 @@ Toda massa de teste é centralizada em `tests/fixtures/`. Convenção de nomes:
 
 - **`request.js`** — Instância SuperTest. Nunca importe `supertest` diretamente nos testes.
 - **`auth.helper.js`** — Encapsula operações de registro, login e obtenção de token.
-- **`cleanup.helper.js`** — Reset do estado in-memory entre testes.
+- **`cleanup.helper.js`** — Reset do estado in-memory entre testes (`clearUsers`, `clearTransactions`).
 
 ### 3.4 Isolamento
 
@@ -146,14 +148,16 @@ describe('POST /api/transactions', function () {
 | `login.test.js` | TC-OPT-006 a TC-OPT-008 | RF02, CAG01, CAG02, CAG05 |
 | `profile.test.js` | TC-OPT-009 a TC-OPT-012 | RF02, CAG02 |
 | `e2e-auth-flow.test.js` | TC-OPT-013 | RF01, RF02, CAG01, CAG02 |
+| `transactions.test.js` | Casos de Teste do Épico 02 | US03, US04, US05 (RN04) |
 
 ---
 
-## 6. Próximos Passos (Sprint 02)
+## 6. Histórico de Entregas e Próximos Passos
 
-- [ ] Criar testes para endpoints de transações (Épico 02)
-- [ ] Adicionar validação de schema com AJV/Joi nos testes
-- [ ] Configurar CI/CD para execução automática em push/PR
-- [ ] Implementar `clearTransactions()` no cleanup helper
-- [ ] Adicionar threshold mínimo de cobertura (90%)
-- [ ] Integrar relatório Mochawesome ao pipeline de CI
+### Concluído (Sprint Atual - Épico 01 e 02)
+- [x] Criação de estrutura base de automação (Mocha + Chai + SuperTest)
+- [x] Helpers para autenticação, request e cleanup (`clearUsers`, `clearTransactions`)
+- [x] Fixtures separadas para cenários de usuários, tokens e transações
+- [x] Cobertura E2E de Auth (US01, US02)
+- [x] Testes para endpoints de transações (Épico 02 - US03, US04, US05)
+- [x] Correção de bug de validação para valor `0` em transações no serviço (`transactionService.js`)
