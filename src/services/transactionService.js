@@ -11,7 +11,7 @@ const AppError = require('../utils/AppError');
 function createTransaction(userId, data) {
   const { description, value, date, category, status } = data;
 
-  if (!description || !value || !date || !category || !status) {
+  if (!description || value === undefined || value === null || !date || !category || !status) {
     throw new AppError('Todos os campos são obrigatórios (description, value, date, category, status).', 400);
   }
 

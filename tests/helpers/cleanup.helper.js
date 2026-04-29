@@ -6,6 +6,7 @@
  */
 
 const userModel = require('../../src/models/userModel');
+const transactionModel = require('../../src/models/transactionModel');
 
 /**
  * Limpa todos os registros do repositório de usuários.
@@ -15,6 +16,15 @@ function clearUsers() {
   userModel.clearAll();
 }
 
+/**
+ * Limpa todos os registros do repositório de movimentações.
+ * Deve ser chamado em hooks `beforeEach` ou `afterEach`.
+ */
+function clearTransactions() {
+  transactionModel.clearAll();
+}
+
 module.exports = {
   clearUsers,
+  clearTransactions,
 };

@@ -326,16 +326,229 @@
 
 ---
 
+### 3. US03 - Registro de Movimentacao
+
+---
+
+### TC-OPT-014 - Criacao bem-sucedida de movimentacao (Receita e Despesa)
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF03, US03-CA01, US03-CA02, CAG01, CAG02, CT-US03-001, CT-US03-011, CT-US03-012
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui um token JWT valido.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `POST /api/transactions` com o header `Authorization: Bearer <token_valido>` e o corpo: `{"description": "Salario", "amount": 5000.00, "date": "2026-05-01", "type": "receita", "status": "pago"}` | A API processa a requisicao sem erros. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `201 Created`. |
+| 3 | Verificar a vinculacao e os dados no corpo da resposta. | O campo `success` e `true` e os dados retornados contem um ID gerado associado implicitamente ao usuario autenticado. |
+| 4 | Enviar uma requisicao `POST /api/transactions` com o corpo: `{"description": "Aluguel", "amount": 1500.00, "date": "2026-05-05", "type": "despesa", "status": "pendente"}` | A API processa a criacao da despesa corretamente. |
+| 5 | Verificar o status code da resposta. | O status code retornado e `201 Created`. |
+
+**Pos-condicoes:**
+- As movimentacoes de receita e despesa sao persistidas no banco de dados e vinculadas ao usuario dono do token.
+
+---
+
+### TC-OPT-015 - Rejeicao de criacao com valores invalidos (Particionamento de Equivalencia e Valor Limite)
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF03, RN04, US03-CA01, CAG05, CT-US03-002, CT-US03-003
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui um token JWT valido.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `POST /api/transactions` preenchendo o campo `amount` com o valor `0` (zero). | A API rejeita a transacao por violar a regra de valor minimo (RN04). |
+| 2 | Verificar o status code da resposta. | O status code retornado e `400 Bad Request`. |
+| 3 | Verificar o campo de mensagem. | O erro especifica que o valor da movimentacao deve ser maior que zero. |
+| 4 | Enviar uma requisicao `POST /api/transactions` preenchendo o campo `amount` com o valor `-50.00` (negativo). | A API rejeita a requisicao, validando o limite inferior da regra de negocio. |
+| 5 | Verificar o status code da resposta. | O status code retornado e `400 Bad Request`. |
+
+**Pos-condicoes:**
+- Nenhuma movimentacao invalida e inserida na base de dados.
+
+---
+
+### TC-OPT-016 - Rejeicao de criacao com campos obrigatorios ausentes ou nao permitidos
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF03, US03-CA02, CAG05, CT-US03-004, CT-US03-005, CT-US03-006, CT-US03-007, CT-US03-008, CT-US03-009, CT-US03-010
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui um token JWT valido.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `POST /api/transactions` com o corpo vazio `{}`. | A API rejeita a requisicao, identificando as faltas. |
+| 2 | Verificar o status code e a estrutura de erro. | O status code e `400 Bad Request` e a resposta indica a obrigatoriedade dos campos (description, amount, date, type, status). |
+| 3 | Enviar requisicao informando valor invalido para o tipo: `{"type": "transferencia", ...}`. | A API rejeita a requisicao por valor fora do dominio de dados permitido. |
+| 4 | Verificar a resposta de erro para o campo type. | O status code e `400 Bad Request` indicando que o tipo deve ser "receita" ou "despesa". |
+| 5 | Enviar requisicao informando valor invalido para o status: `{"status": "atrasado", ...}`. | A API rejeita a requisicao por valor fora do dominio de dados permitido. |
+| 6 | Verificar a resposta de erro para o campo status. | O status code e `400 Bad Request` indicando que o status deve ser "pendente" ou "pago". |
+
+**Pos-condicoes:**
+- O sistema mantem a integridade estrutural, nao persistindo dados inconsistentes.
+
+---
+
+## 4. US04 - Efetivacao de Pagamento
+
+---
+
+### TC-OPT-017 - Alteracao de status para pago bem-sucedida
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF04, US04-CA01, CAG01, CT-US04-001, CT-US04-006, CT-US04-007
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui uma movimentacao financeira com status "pendente".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `PATCH /api/transactions/{id}/pay` (ou endpoint correspondente) utilizando o ID da movimentacao pendente pertencente ao usuario. | A API processa a alteracao de status. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `200 OK`. |
+| 3 | Verificar os atributos atualizados no corpo da resposta. | O campo `status` e alterado para "pago" e a data de atualizacao (`updatedAt`) e modificada. |
+
+**Pos-condicoes:**
+- A movimentacao fica registrada com status definitivo de "pago".
+
+---
+
+### TC-OPT-018 - Rejeicao de transicao invalida de status (RN05)
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF04, RN05, US04-CA02, CT-US04-002, CT-US04-003
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui uma movimentacao ja efetivada com status "pago".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Tentar efetivar pagamento enviando requisicao `PATCH /api/transactions/{id}/pay` para o ID da movimentacao ja paga. | A API identifica a redundancia e bloqueia a acao, conforme a regra RN05. |
+| 2 | Verificar o status code retornado. | O status code e correspondente a erro de regra de negocio (ex: `400 Bad Request` ou `422 Unprocessable Entity`). |
+| 3 | Tentar forcar o retorno do status para "pendente" enviando uma atualizacao (`PUT` ou `PATCH`) na movimentacao. | A API bloqueia a reversao. |
+| 4 | Verificar a resposta de erro da tentativa de reversao. | O sistema informa que movimentacoes ja pagas nao podem retornar ao status pendente. |
+
+**Pos-condicoes:**
+- O status da movimentacao assegura a imutabilidade apos pagamento, permanecendo "pago".
+
+---
+
+### TC-OPT-019 - Protecao contra alteracao de movimentacao de terceiros ou inexistente
+
+**Prioridade:** Alta
+**Rastreabilidade:** RN02, CAG01, CAG02, CT-US04-004, CT-US04-005
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- Dois usuarios distintos estao autenticados (Usuario A e Usuario B).
+- O Usuario A possui uma movimentacao "pendente".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao de efetivacao de pagamento utilizando o token do Usuario B, informando o ID da movimentacao pertencente ao Usuario A. | A API detecta o desvio de autorizacao e protege os dados (RN02). |
+| 2 | Verificar o status code retornado. | O status code e `404 Not Found` ou `403 Forbidden`. |
+| 3 | Enviar uma requisicao utilizando o token do Usuario A com um ID de movimentacao que nao existe no sistema. | A API busca o registro e nao o localiza. |
+| 4 | Verificar o status code retornado. | O status code e `404 Not Found`. |
+
+**Pos-condicoes:**
+- A movimentacao do Usuario A permanece inalterada e restrita a ele proprio.
+
+---
+
+## 5. US05 - Exclusao de Movimentacao
+
+---
+
+### TC-OPT-020 - Exclusao de movimentacao pendente com sucesso
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF07, US05-CA01, CAG01, CT-US05-001, CT-US05-005
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui uma movimentacao financeira com status "pendente".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `DELETE /api/transactions/{id}` contendo o ID da movimentacao pendente do usuario. | A API processa a solicitacao de remocao. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `200 OK` ou `204 No Content`. |
+| 3 | Efetuar uma nova requisicao `GET /api/transactions/{id}` buscando o ID recem-excluido. | A API nao localiza mais o registro. |
+| 4 | Verificar o retorno da pesquisa. | O status code retornado na busca e `404 Not Found`. |
+
+**Pos-condicoes:**
+- O registro e removido em definitivo do sistema.
+
+---
+
+### TC-OPT-021 - Rejeicao de exclusao de movimentacao efetivada (RN06)
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF07, RN06, US05-CA02, CAG04, CT-US05-002
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui uma movimentacao financeira com status "pago".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `DELETE /api/transactions/{id}` utilizando o ID da movimentacao que possui status "pago". | A API valida as regras de negocio e impede a delecao (RN06). |
+| 2 | Verificar o status code da resposta. | O status code indica rejeicao por violacao de regra (ex: `400 Bad Request` ou `422 Unprocessable Entity`). |
+| 3 | Verificar a mensagem explicativa. | O retorno informa que movimentacoes ja pagas nao podem ser deletadas do sistema. |
+
+**Pos-condicoes:**
+- A movimentacao consolidada permanece no sistema sem modificacoes.
+
+---
+
+### TC-OPT-022 - Protecao contra exclusao de movimentacao de terceiros ou inexistente
+
+**Prioridade:** Alta
+**Rastreabilidade:** RN02, CAG01, CAG02, CT-US05-003, CT-US05-004
+
+**Pre-condicoes:**
+- O servidor da API esta em execucao.
+- Dois usuarios distintos estao autenticados (Usuario A e Usuario B).
+- O Usuario A possui uma movimentacao "pendente".
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `DELETE /api/transactions/{id}` utilizando o token do Usuario B, informando o ID da movimentacao do Usuario A. | A API barra a exclusao indevida assegurando a privacidade dos dados (RN02). |
+| 2 | Verificar o status code retornado. | O status code retornado e `404 Not Found` ou `403 Forbidden`. |
+| 3 | Enviar requisicao `DELETE /api/transactions/{id}` utilizando o token do Usuario A contendo um ID de transacao invalido ou inexistente. | A API nao localiza o registro para delecao. |
+| 4 | Verificar o status code retornado. | O status code retornado e `404 Not Found`. |
+
+**Pos-condicoes:**
+- Os registros do Usuario A e a base de dados mantem-se integros e inalterados por ataques ou erros de rota.
+
+---
+
 ## Matriz de Rastreabilidade
 
 | Requisito / Regra | Casos de Teste Otimizados |
 |:---|:---|
 | RF01 | TC-OPT-001, TC-OPT-002, TC-OPT-003, TC-OPT-004, TC-OPT-005, TC-OPT-013 |
 | RF02 | TC-OPT-006, TC-OPT-007, TC-OPT-008, TC-OPT-009, TC-OPT-010, TC-OPT-011, TC-OPT-012, TC-OPT-013 |
+| RF03 | TC-OPT-014, TC-OPT-015, TC-OPT-016 |
+| RF04 | TC-OPT-017, TC-OPT-018, TC-OPT-019 |
+| RF07 | TC-OPT-020, TC-OPT-021, TC-OPT-022 |
 | RN01 | TC-OPT-001, TC-OPT-002 |
-| CAG01 | TC-OPT-001, TC-OPT-002, TC-OPT-003, TC-OPT-006, TC-OPT-007, TC-OPT-008, TC-OPT-013 |
-| CAG02 | TC-OPT-001, TC-OPT-006, TC-OPT-007, TC-OPT-009, TC-OPT-010, TC-OPT-011, TC-OPT-012, TC-OPT-013 |
-| CAG05 | TC-OPT-003, TC-OPT-004, TC-OPT-005, TC-OPT-008 |
+| RN02 | TC-OPT-019, TC-OPT-022 |
+| RN04 | TC-OPT-015 |
+| RN05 | TC-OPT-018 |
+| RN06 | TC-OPT-021 |
+| CAG01 | TC-OPT-001, TC-OPT-002, TC-OPT-003, TC-OPT-006, TC-OPT-007, TC-OPT-008, TC-OPT-013, TC-OPT-014, TC-OPT-017, TC-OPT-019, TC-OPT-020, TC-OPT-022 |
+| CAG02 | TC-OPT-001, TC-OPT-006, TC-OPT-007, TC-OPT-009, TC-OPT-010, TC-OPT-011, TC-OPT-012, TC-OPT-013, TC-OPT-014, TC-OPT-019, TC-OPT-022 |
+| CAG04 | TC-OPT-021 |
+| CAG05 | TC-OPT-003, TC-OPT-004, TC-OPT-005, TC-OPT-008, TC-OPT-015, TC-OPT-016 |
 
 ---
 
@@ -343,12 +556,12 @@
 
 | Metrica | Valor |
 |:---|:---|
-| Total de casos de teste | 13 |
-| Cobertura de User Stories | US01, US02 (100%) |
-| Cobertura de Requisitos Funcionais | RF01, RF02 (100%) |
-| Cobertura de Regras de Negocio | RN01 (100%) |
-| Cobertura de Criterios de Aceite Globais | CAG01, CAG02, CAG05 (100%) |
-| Cenarios positivos | 3 (TC-OPT-001, TC-OPT-006, TC-OPT-009) |
-| Cenarios negativos | 9 (TC-OPT-002 a TC-OPT-005, TC-OPT-007, TC-OPT-008, TC-OPT-010 a TC-OPT-012) |
+| Total de casos de teste | 22 |
+| Cobertura de User Stories | US01, US02, US03, US04, US05 (100%) |
+| Cobertura de Requisitos Funcionais | RF01, RF02, RF03, RF04, RF07 (100%) |
+| Cobertura de Regras de Negocio | RN01, RN02, RN04, RN05, RN06 (100%) |
+| Cobertura de Criterios de Aceite Globais | CAG01, CAG02, CAG04, CAG05 (100%) |
+| Cenarios positivos | 6 (TC-OPT-001, TC-OPT-006, TC-OPT-009, TC-OPT-014, TC-OPT-017, TC-OPT-020) |
+| Cenarios negativos | 15 (TC-OPT-002 a TC-OPT-005, TC-OPT-007, TC-OPT-008, TC-OPT-010 a TC-OPT-012, TC-OPT-015, TC-OPT-016, TC-OPT-018, TC-OPT-019, TC-OPT-021, TC-OPT-022) |
 | Cenarios end-to-end | 1 (TC-OPT-013) |
-| Reducao em relacao a suite original | 20 → 13 (reducao de 35%) |
+| Reducao em relacao a suite original | 59 → 22 (reducao de 62%) |
