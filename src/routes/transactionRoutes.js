@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const transactionController = require('../controllers/transactionController');
 const authMiddleware = require('../middlewares/authMiddleware');
+const { forbidAdminFinancialAccess } = require('../middlewares/roleMiddleware');
 
 const router = Router();
 
-// Todas as rotas de movimentação exigem autenticação
 router.use(authMiddleware);
+router.use(forbidAdminFinancialAccess);
 
 /**
  * @swagger
@@ -17,6 +18,42 @@ router.use(authMiddleware);
 /**
  * @swagger
  * /api/transactions:
+ *   get:
+ *     summary: Consulta de extrato e saldo
+ *     description: |
+ *       Retorna as movimentações do usuário autenticado em ordem cronológica e o saldo consolidado (RF05, RF06).
+ *       O isolamento dos dados do usuário é preservado em todas as respostas (RN02).
+ *     tags: [Movimentações]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Extrato financeiro obtido com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Extrato financeiro obtido com sucesso."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transactions:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Transaction'
+ *                     balance:
+ *                       type: number
+ *                       example: 3500.5
+ *       401:
+ *         description: Não autorizado (token ausente ou inválido)
+ *       403:
+ *         description: Administradores não podem acessar dados financeiros
  *   post:
  *     summary: Registro de movimentação
  *     description: |
@@ -33,24 +70,25 @@ router.use(authMiddleware);
  *             type: object
  *             required:
  *               - description
- *               - amount
+ *               - value
  *               - date
- *               - type
+ *               - category
+ *               - status
  *             properties:
  *               description:
  *                 type: string
  *                 example: "Salário"
  *                 description: Descrição da movimentação
- *               amount:
+ *               value:
  *                 type: number
- *                 example: 5000.50
+ *                 example: 5000.5
  *                 description: Valor da movimentação (deve ser maior que zero)
  *               date:
  *                 type: string
  *                 format: date
  *                 example: "2026-05-05"
  *                 description: Data da movimentação (YYYY-MM-DD)
- *               type:
+ *               category:
  *                 type: string
  *                 enum: [receita, despesa]
  *                 example: "receita"
@@ -59,7 +97,7 @@ router.use(authMiddleware);
  *                 type: string
  *                 enum: [pendente, pago]
  *                 example: "pago"
- *                 description: Status inicial (padrão é "pendente")
+ *                 description: Status inicial da movimentação
  *     responses:
  *       201:
  *         description: Movimentação registrada com sucesso
@@ -81,20 +119,19 @@ router.use(authMiddleware);
  *                       $ref: '#/components/schemas/Transaction'
  *       400:
  *         description: Dados de entrada inválidos
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
- *         description: Não autorizado (Token ausente ou inválido)
+ *         description: Não autorizado (token ausente ou inválido)
+ *       403:
+ *         description: Administradores não podem acessar dados financeiros
  */
+router.get('/', transactionController.list);
 router.post('/', transactionController.create);
 
 /**
  * @swagger
  * /api/transactions/{id}/pay:
  *   patch:
- *     summary: Alteração de status para Pago
+ *     summary: Alteração de status para pago
  *     description: |
  *       Altera o status de uma movimentação de "pendente" para "pago" (RN05).
  *       Somente o dono da movimentação pode alterá-la (RN02).
@@ -131,7 +168,7 @@ router.post('/', transactionController.create);
  *       401:
  *         description: Não autorizado
  *       403:
- *         description: Acesso negado (movimentação de outro usuário)
+ *         description: Acesso negado (movimentação de outro usuário ou perfil admin)
  *       404:
  *         description: Movimentação não encontrada
  *       422:
@@ -175,7 +212,7 @@ router.patch('/:id/pay', transactionController.pay);
  *       401:
  *         description: Não autorizado
  *       403:
- *         description: Acesso negado
+ *         description: Acesso negado (movimentação de outro usuário ou perfil admin)
  *       404:
  *         description: Movimentação não encontrada
  *       422:

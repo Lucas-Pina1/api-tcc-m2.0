@@ -1,95 +1,103 @@
 # Planejamento de User Stories
 
-## Épicos
+## Epicos
 
-| ID | Título | Descrição |
+| ID | Titulo | Descricao |
 | :--- | :--- | :--- |
-| **Épico 01** | Gestão de Identidade e Acesso | Responsável por toda a jornada de entrada, identificação e segurança do usuário e do administrador na plataforma. |
-| **Épico 02** | Gestão de Movimentações Financeiras | Abrange as funcionalidades de criação, modificação de estado e remoção de registros de receitas e despesas. |
-| **Épico 03** | Painel de Resultados e Visibilidade | Focado na entrega de valor através da exibição consolidada de lançamentos e cálculos de saúde financeira (saldo). |
-| **Épico 04** | Administração da Plataforma | Dedicado às ferramentas de governança e controle de usuários por parte do perfil administrador. |
+| **Epico 01** | Gestao de Identidade e Acesso | Responsavel por toda a jornada de entrada, identificacao e seguranca do usuario e do administrador na plataforma. |
+| **Epico 02** | Gestao de Movimentacoes Financeiras | Abrange as funcionalidades de criacao, modificacao de estado e remocao de registros de receitas e despesas. |
+| **Epico 03** | Painel de Resultados e Visibilidade | Focado na entrega de valor por meio da exibicao consolidada de lancamentos e calculos de saude financeira. |
+| **Epico 04** | Administracao da Plataforma | Dedicado as ferramentas de governanca e controle de usuarios por parte do perfil administrador. |
 
 ---
 
 ## User Stories
 
-### Épico 01: Gestão de Identidade e Acesso
+### Epico 01: Gestao de Identidade e Acesso
 
-#### US01 - Cadastro de Novo Usuário
-> **Como** usuário comum,  
+#### US01 - Cadastro de Novo Usuario
+> **Como** usuario comum,  
 > **Quero** criar uma conta na plataforma utilizando e-mail e senha,  
-> **Para que** eu possa iniciar o controle das minhas finanças pessoais.
+> **Para que** eu possa iniciar o controle das minhas financas pessoais.
 
-- **Critério de Aceite 01 (Sucesso):** Dado que o usuário preenche um e-mail válido e não cadastrado e uma senha, quando solicita o cadastro, então o sistema confirma a criação da conta e permite o acesso.
-- **Critério de Aceite 02 (E-mail duplicado):** Dado que o usuário tenta se cadastrar com um e-mail que já existe na base, quando solicita o cadastro, então o sistema impede a operação e exibe uma mensagem de erro informando a duplicidade.
+- **Criterio de Aceite 01 (Sucesso):** Dado que o usuario preenche um e-mail valido e nao cadastrado e uma senha, quando solicita o cadastro, entao o sistema confirma a criacao da conta e permite o acesso.
+- **Criterio de Aceite 02 (E-mail duplicado):** Dado que o usuario tenta se cadastrar com um e-mail que ja existe na base, quando solicita o cadastro, entao o sistema impede a operacao e exibe uma mensagem de erro informando a duplicidade.
 
-#### US02 - Autenticação de Usuário
-> **Como** usuário cadastrado,  
+#### US02 - Autenticacao de Usuario
+> **Como** usuario cadastrado,  
 > **Quero** realizar o login no sistema,  
-> **Para que** eu possa acessar meus dados financeiros com segurança.
+> **Para que** eu possa acessar meus dados financeiros com seguranca.
 
-- **Critério de Aceite 01 (Sucesso):** Dado que o usuário informa e-mail e senha corretos, quando solicita o acesso, então o sistema redireciona para a tela principal de extrato.
-- **Critério de Aceite 02 (Dados Inválidos):** Dado que o usuário informa credenciais incorretas, quando solicita o acesso, então o sistema nega a entrada e informa que os dados estão incorretos.
+- **Criterio de Aceite 01 (Sucesso):** Dado que o usuario informa e-mail e senha corretos, quando solicita o acesso, entao o sistema redireciona para a tela principal de extrato.
+- **Criterio de Aceite 02 (Dados Invalidos):** Dado que o usuario informa credenciais incorretas, quando solicita o acesso, entao o sistema nega a entrada e informa que os dados estao incorretos.
 
 ---
 
-### Épico 02: Gestão de Movimentações Financeiras
+### Epico 02: Gestao de Movimentacoes Financeiras
 
-#### US03 - Registro de Movimentação
-> **Como** usuário autenticado,  
+#### US03 - Registro de Movimentacao
+> **Como** usuario autenticado,  
 > **Quero** registrar uma nova receita ou despesa,  
-> **Para** manter meu histórico financeiro atualizado.
+> **Para** manter meu historico financeiro atualizado.
 
-- **Critério de Aceite 01 (Validação de Valor):** Dado que o usuário tenta registrar um valor menor ou igual a zero, quando confirma o registro, então o sistema bloqueia a operação e exige um valor positivo.
-- **Critério de Aceite 02 (Dados Obrigatórios):** Dado que o usuário deixa de preencher descrição, valor ou data, quando confirma o registro, então o sistema impede a gravação e destaca os campos obrigatórios.
+- **Criterio de Aceite 01 (Validacao de Valor):** Dado que o usuario tenta registrar um valor menor ou igual a zero, quando confirma o registro, entao o sistema bloqueia a operacao e exige um valor positivo.
+- **Criterio de Aceite 02 (Dados Obrigatorios):** Dado que o usuario deixa de preencher descricao, valor ou data, quando confirma o registro, entao o sistema impede a gravacao e destaca os campos obrigatorios.
 
-#### US04 - Efetivação de Pagamento
-> **Como** usuário autenticado,  
+#### US04 - Efetivacao de Pagamento
+> **Como** usuario autenticado,  
 > **Quero** marcar uma conta pendente como paga,  
-> **Para que** o sistema reflita que aquela transação foi concluída.
+> **Para que** o sistema reflita que aquela transacao foi concluida.
 
-- **Critério de Aceite 01 (Mudança de Status):** Dado que existe uma movimentação "Pendente", quando o usuário aciona o comando de pagar, então o status é atualizado para "Pago" e a data de alteração é registrada.
-- **Critério de Aceite 02 (Impedimento de Retrocesso):** Dado que uma movimentação já possui o status "Pago", quando o usuário tenta alterar o status, então o sistema não oferece a opção de retornar para "Pendente".
+- **Criterio de Aceite 01 (Mudanca de Status):** Dado que existe uma movimentacao "Pendente", quando o usuario aciona o comando de pagar, entao o status e atualizado para "Pago".
+- **Criterio de Aceite 02 (Impedimento de Retrocesso):** Dado que uma movimentacao ja possui o status "Pago", quando o usuario tenta alterar o status, entao o sistema nao oferece a opcao de retornar para "Pendente".
 
-#### US05 - Exclusão de Movimentação
-> **Como** usuário autenticado,  
-> **Quero** excluir um lançamento feito por erro,  
+#### US05 - Exclusao de Movimentacao
+> **Como** usuario autenticado,  
+> **Quero** excluir um lancamento feito por erro,  
 > **Para** corrigir falhas de preenchimento no meu extrato.
 
-- **Critério de Aceite 01 (Exclusão Permitida):** Dado que uma movimentação está com status "Pendente", quando o usuário solicita a exclusão, então o sistema remove o registro e atualiza o saldo.
-- **Critério de Aceite 02 (Exclusão Negada):** Dado que uma movimentação está com status "Pago", quando o usuário tenta excluir o registro, então o sistema impede a ação e informa que registros pagos não podem ser removidos.
+- **Criterio de Aceite 01 (Exclusao Permitida):** Dado que uma movimentacao esta com status "Pendente", quando o usuario solicita a exclusao, entao o sistema remove o registro e atualiza o saldo.
+- **Criterio de Aceite 02 (Exclusao Negada):** Dado que uma movimentacao esta com status "Pago", quando o usuario tenta excluir o registro, entao o sistema impede a acao e informa que registros pagos nao podem ser removidos.
 
 ---
 
-### Épico 03: Painel de Resultados e Visibilidade
+### Epico 03: Painel de Resultados e Visibilidade
 
-#### US06 - Visualização de Saldo e Extrato
-> **Como** usuário autenticado,  
-> **Quero** visualizar a lista de meus lançamentos e o saldo final,  
-> **Para** entender minha situação financeira atual.
+**Objetivo de negocio:** permitir que o usuario acompanhe sua saude financeira atual com base apenas nos lancamentos do proprio historico.
 
-- **Critério de Aceite 01 (Cálculo do Saldo):** Dado que o usuário possui receitas e despesas lançadas, quando acessa a tela principal, então o sistema exibe o valor resultante da subtração das despesas do total de receitas.
-- **Critério de Aceite 02 (Isolamento):** Dado que o Usuário A está logado, quando visualiza o extrato, então o sistema garante que nenhum dado do Usuário B seja exibido.
+#### US06 - Visualizacao de Saldo e Extrato
+> **Como** usuario autenticado,  
+> **Quero** visualizar a lista de meus lancamentos e o saldo final,  
+> **Para** entender minha situacao financeira atual.
+
+- **Valor de negocio:** aumenta a visibilidade do fluxo financeiro pessoal sem exigir calculos manuais fora da plataforma.
+- **INVEST:** a historia e independente das operacoes de cadastro e login, negociavel quanto ao formato do retorno, valiosa por consolidar o extrato, estimavel por reaproveitar os lancamentos existentes, pequena para uma sprint e testavel por saldo calculado e isolamento de dados.
+- **Criterio de Aceite 01 (Calculo do Saldo):** Dado que o usuario possui receitas e despesas lancadas, quando acessa a consulta principal, entao o sistema exibe o valor resultante da subtracao das despesas do total de receitas.
+- **Criterio de Aceite 02 (Isolamento):** Dado que o Usuario A esta logado, quando visualiza o extrato, entao o sistema garante que nenhum dado do Usuario B seja exibido.
 
 ---
 
-### Épico 04: Administração da Plataforma
+### Epico 04: Administracao da Plataforma
 
-#### US07 - Gestão de Contas por Administrador
+**Objetivo de negocio:** oferecer governanca minima da base de usuarios sem violar a privacidade financeira definida pelas regras da plataforma.
+
+#### US07 - Gestao de Contas por Administrador
 > **Como** administrador,  
-> **Quero** visualizar a lista de usuários e ter o poder de excluir contas,  
-> **Para** manter a ordem e a segurança da plataforma.
+> **Quero** visualizar a lista de usuarios e ter o poder de excluir contas,  
+> **Para** manter a ordem e a seguranca da plataforma.
 
-- **Critério de Aceite 01 (Listagem):** Dado que o administrador acessa sua área restrita, quando solicita a lista de usuários, então o sistema exibe apenas os nomes/e-mails dos cadastrados.
-- **Critério de Aceite 02 (Banimento):** Dado que o administrador decide remover um usuário, quando confirma a exclusão da conta, então todos os dados de acesso daquele usuário são invalidados.
-- **Critério de Aceite 03 (Privacidade Financeira):** Dado que o administrador visualiza a lista de usuários, quando tenta acessar os lançamentos de um usuário específico, então o sistema não deve fornecer nenhum caminho ou visualização de dados financeiros.
+- **Valor de negocio:** permite acao administrativa sobre contas invalidas, inativas ou indevidas sem expor dados financeiros sensiveis.
+- **INVEST:** a historia e independente do fluxo financeiro, negociavel no detalhamento dos dados cadastrais retornados, valiosa para governanca, estimavel pelo reuso do modelo de usuarios, pequena para uma sprint e testavel por autorizacao, listagem e banimento.
+- **Criterio de Aceite 01 (Listagem):** Dado que o administrador acessa sua area restrita, quando solicita a lista de usuarios, entao o sistema exibe apenas os identificadores necessarios e os nomes/e-mails dos cadastrados.
+- **Criterio de Aceite 02 (Banimento):** Dado que o administrador decide remover um usuario, quando confirma a exclusao da conta, entao todos os dados de acesso daquele usuario sao invalidados.
+- **Criterio de Aceite 03 (Privacidade Financeira):** Dado que o administrador visualiza a lista de usuarios, quando tenta acessar os lancamentos de um usuario especifico, entao o sistema nao deve fornecer nenhum caminho ou visualizacao de dados financeiros.
 
 ---
 
-## Critérios de Aceite Globais
+## Criterios de Aceite Globais
 
-- **CAG01 - Padronização de Protocolo:** Todas as interações do sistema devem seguir rigorosamente o padrão HTTP para comunicação, utilizando os verbos e códigos de estado correspondentes à semântica da operação.
-- **CAG02 - Segurança e Privacidade de Dados:** O sistema deve garantir que em nenhuma circunstância dados financeiros sejam expostos a terceiros ou administradores. O acesso deve ser restrito exclusivamente ao proprietário da conta através de autenticação.
-- **CAG03 - Integridade Financeira:** O cálculo do saldo deve ser reprocessado a cada inclusão ou alteração de status para garantir que o valor exibido reflita exatamente a soma algébrica dos lançamentos atuais.
-- **CAG04 - Persistência de Histórico:** Uma vez que um registro é marcado como "Pago", o sistema deve assegurar a imutabilidade desse status e a impossibilidade de sua remoção, garantindo a rastreabilidade histórica do fluxo de caixa do usuário.
-- **CAG05 - Validação de Entrada de Dados:** Toda e qualquer entrada de valor monetário deve passar por uma trava que impeça valores nulos, negativos ou caracteres não numéricos, assegurando a consistência dos cálculos matemáticos do sistema.
+- **CAG01 - Padronizacao de Protocolo:** Todas as interacoes do sistema devem seguir rigorosamente o padrao HTTP para comunicacao, utilizando os verbos e codigos de estado correspondentes a semantica da operacao.
+- **CAG02 - Seguranca e Privacidade de Dados:** O sistema deve garantir que em nenhuma circunstancia dados financeiros sejam expostos a terceiros ou administradores. O acesso deve ser restrito exclusivamente ao proprietario da conta por meio de autenticacao.
+- **CAG03 - Integridade Financeira:** O calculo do saldo deve ser reprocessado a cada inclusao ou alteracao de status para garantir que o valor exibido reflita exatamente a soma algebrica dos lancamentos atuais.
+- **CAG04 - Persistencia de Historico:** Uma vez que um registro e marcado como "Pago", o sistema deve assegurar a imutabilidade desse status e a impossibilidade de sua remocao, garantindo a rastreabilidade historica do fluxo de caixa do usuario.
+- **CAG05 - Validacao de Entrada de Dados:** Toda e qualquer entrada de valor monetario deve passar por uma trava que impeca valores nulos, negativos ou caracteres nao numericos, assegurando a consistencia dos calculos matematicos do sistema.

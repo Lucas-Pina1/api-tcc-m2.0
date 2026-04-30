@@ -70,6 +70,18 @@ function remove(id) {
 }
 
 /**
+ * Remove todas as transaÃ§Ãµes de um usuÃ¡rio especÃ­fico.
+ * @param {string} userId
+ */
+function removeByUserId(userId) {
+  for (let index = transactions.length - 1; index >= 0; index -= 1) {
+    if (transactions[index].userId === userId) {
+      transactions.splice(index, 1);
+    }
+  }
+}
+
+/**
  * Limpa o array (para testes).
  */
 function clearAll() {
@@ -82,5 +94,6 @@ module.exports = {
   create,
   update,
   remove,
+  removeByUserId,
   clearAll,
 };
