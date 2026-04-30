@@ -130,3 +130,63 @@ tests/
 - Fixtures devem ser utilizadas para dados de entrada
 - Helpers devem ser utilizados para operações reutilizáveis
 - Nenhum teste deve depender da ordem de execução de outro
+
+---
+
+## 7. Extensão da Estratégia - Épico 03 e Épico 04
+
+**Sprint:** 03  
+**Escopo:** Épico 03 - Painel de Resultados e Visibilidade (US06) e Épico 04 - Administração da Plataforma (US07)  
+**Data:** 2026-04-30
+
+### 7.1 Classificação dos Casos de Teste do Escopo
+
+| ID | Título | Classificação | Justificativa Técnica |
+|:---|:---|:---|:---|
+| TC-OPT-023 | Consulta de extrato e saldo com histórico vazio | Automatizado | Cenário determinístico de API com regra estável de retorno (`200`, array vazio e saldo `0`), alta repetibilidade e baixo custo de manutenção. |
+| TC-OPT-024 | Consulta consolidada com saldo negativo, ordem cronológica e isolamento de dados | Automatizado | Valida cálculo de saldo, ordenação e isolamento por autenticação, todos comportamentos objetivos, regressivos e críticos para API. |
+| TC-OPT-025 | Listagem administrativa de usuários com exposição mínima de dados | Automatizado | Verifica contrato HTTP, campos retornados e ausência de dados sensíveis, ideal para automação de regressão. |
+| TC-OPT-026 | Banimento administrativo com invalidação de credenciais | Automatizado | Fluxo crítico e repetitivo que envolve múltiplas chamadas REST com resultados observáveis e estáveis. |
+| TC-OPT-027 | Proteção de acesso e privacidade na administração da plataforma | Automatizado | Regras de autorização e privacidade são objetivas, de alto risco e com excelente retorno em execução automatizada contínua. |
+
+### 7.2 Itens Mantidos em Execução Manual no Contexto de US06 e US07
+
+Para este recorte, nenhum dos casos formais do escopo foi mantido como manual, porque todos são cenários determinísticos de API.  
+Permanece recomendada execução manual complementar apenas para exploração não funcional fora da suíte formal, como inspeção da documentação Swagger, navegação exploratória de rotas inexistentes e análise investigativa de mensagens de erro sob tentativas anômalas.
+
+### 7.3 Automação Implementada
+
+- `tests/api/statement.test.js` cobre `TC-OPT-023` e `TC-OPT-024`
+- `tests/api/admin-users.test.js` cobre `TC-OPT-025`, `TC-OPT-026` e `TC-OPT-027`
+- `tests/helpers/auth.js` centraliza autenticação reutilizável para o novo recorte
+- `tests/fixtures/statement-us06.json` e `tests/fixtures/admin-us07.json` desacoplam massa de teste da lógica dos cenários
+
+### 7.4 Estrutura Adotada no Recorte
+
+```text
+tests/
+├── api/
+│   ├── statement.test.js
+│   └── admin-users.test.js
+├── helpers/
+│   ├── request.js
+│   ├── auth.js
+│   └── cleanup.helper.js
+└── fixtures/
+    ├── statement-us06.json
+    └── admin-us07.json
+```
+
+### 7.5 Execução
+
+```bash
+npm.cmd test
+```
+
+O arquivo `tests/.mocharc.yml` foi estendido para executar tanto a suíte legada em `tests/integration/` quanto os novos testes de `tests/api/`.
+
+### 7.6 Próximos Passos Recomendados
+
+- Consolidar gradualmente os testes de `US06` e `US07` legados com a nova estrutura `tests/api/` para reduzir duplicidade futura
+- Adicionar validação de schema para os contratos de `GET /api/transactions` e `GET /api/admin/users`
+- Incluir cenários negativos adicionais para payloads malformados e autenticação ausente nas rotas administrativas

@@ -1,0 +1,23 @@
+{
+  "adminCredentials": {
+    "email": "admin@fincontrol.local",
+    "password": "admin123"
+  },
+  "commonUser": {
+    "name": "Usuario Comum",
+    "email": "usuario.comum@email.com",
+    "password": "senha123"
+  },
+  "targetUser": {
+    "name": "Usuario Alvo",
+    "email": "usuario.alvo@email.com",
+    "password": "senha123"
+  },
+  "targetTransaction": {
+    "description": "Conta de Luz",
+    "value": 180.0,
+    "date": "2026-05-08",
+    "category": "despesa",
+    "status": "pendente"
+  }
+}

@@ -1,7 +1,9 @@
 # Mocha Configuration — FinControl Flow
 # Referencia: https://mochajs.org/#configuring-mocha-nodejs
 
-spec: "tests/integration/**/*.test.js"
+spec:
+  - "tests/integration/**/*.test.js"
+  - "tests/api/**/*.test.js"
 timeout: 10000
 recursive: true
 exit: true

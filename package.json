@@ -7,7 +7,10 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "mocha --config tests/.mocharc.yml",
-    "test:report": "mocha --config tests/.mocharc.yml && echo Relatorio gerado em reports/fincontrol-flow-test-report.html"
+    "test:report": "npm test",
+    "perf:smoke": "k6 run tests/performance/smoke.js",
+    "perf:login": "k6 run tests/performance/login-load.js",
+    "perf:statement": "k6 run tests/performance/statement-load.js"
   },
   "keywords": [
     "fincontrol",
