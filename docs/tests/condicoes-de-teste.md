@@ -21,7 +21,7 @@
 | CT-US01-006 | Verificar que o sistema rejeita o cadastro quando nenhum campo obrigatório é preenchido (corpo da requisição vazio). | Alta | RF01, CAG05 |
 | CT-US01-007 | Verificar que o sistema rejeita o cadastro quando o e-mail possui formato inválido (ex: "email-sem-arroba"). | Alta | RF01, CAG05 |
 | CT-US01-008 | Verificar que o sistema rejeita o cadastro quando a senha possui menos de 6 caracteres. | Média | RF01, CAG05 |
-| CT-US01-009 | Verificar que o sistema armazena o e-mail em formato normalizado (lowercase), garantindo que "LUCAS@EMAIL.COM" é tratado como duplicidade de "lucas@email.com". | Média | RN01 |
+| CT-US01-009 | Verificar que o sistema armazena o e-mail em formato normalizado (lowercase), garantindo que "<LUCAS@EMAIL.COM>" é tratado como duplicidade de "<lucas@email.com>". | Média | RN01 |
 | CT-US01-010 | Verificar que a resposta de cadastro bem-sucedido NÃO retorna o campo "password" do usuário. | Alta | CAG02 |
 | CT-US01-011 | Verificar que a resposta de cadastro bem-sucedido retorna o status HTTP 201 (Created). | Alta | CAG01 |
 | CT-US01-012 | Verificar que a resposta de e-mail duplicado retorna o status HTTP 409 (Conflict). | Alta | CAG01, RN01 |
@@ -121,3 +121,47 @@
 | CAG02 | CT-US01-010, CT-US02-007 a CT-US02-009, CT-US02-014 a CT-US02-018, CT-US03-011, CT-US04-004, CT-US05-003 |
 | CAG04 | CT-US05-002 |
 | CAG05 | CT-US01-003 a CT-US01-008, CT-US02-004 a CT-US02-006, CT-US03-002 a CT-US03-010 |
+
+---
+
+## 6. US06 - Visualizacao de Saldo e Extrato
+
+| ID | Descricao | Prioridade | Rastreabilidade |
+|:---|:---|:---|:---|
+| CT-US06-001 | Verificar que o sistema exibe extrato vazio e saldo igual a zero quando o usuario autenticado nao possui movimentacoes registradas. | Alta | RF05, RF06, US06-CA01 |
+| CT-US06-002 | Verificar que o sistema calcula corretamente o saldo consolidado quando existem receitas e despesas pertencentes ao usuario autenticado. | Alta | RF05, RF06, US06-CA01, CAG03 |
+| CT-US06-003 | Verificar que o sistema exibe saldo negativo corretamente quando o total de despesas do usuario e superior ao total de receitas. | Media | RF06, US06-CA01 |
+| CT-US06-004 | Verificar que o sistema apresenta as movimentacoes do usuario em ordem cronologica na consulta de extrato. | Alta | RF05, US06-CA01 |
+| CT-US06-005 | Verificar que o sistema exibe apenas movimentacoes pertencentes ao usuario autenticado, mesmo quando existem registros de outros usuarios na base. | Alta | RF05, RN02, US06-CA02, CAG02 |
+| CT-US06-006 | Verificar que a consulta de extrato e saldo do usuario autenticado retorna status HTTP 200 (OK) e segue o padrao estrutural definido para respostas de sucesso. | Alta | RF05, RF06, CAG01 |
+
+---
+
+## 7. US07 - Gestao de Contas por Administrador
+
+| ID | Descricao | Prioridade | Rastreabilidade |
+|:---|:---|:---|:---|
+| CT-US07-001 | Verificar que o sistema permite ao administrador visualizar a lista de usuarios cadastrados contendo apenas os identificadores e dados cadastrais necessarios. | Alta | RF08, US07-CA01 |
+| CT-US07-002 | Verificar que a listagem administrativa de usuarios nao expoe campos sensiveis, como senha, token ou qualquer dado financeiro dos usuarios. | Alta | RF08, RN03, US07-CA01, US07-CA03, CAG02 |
+| CT-US07-003 | Verificar que o sistema permite ao administrador excluir uma conta de usuario existente com sucesso. | Alta | RF09, US07-CA02 |
+| CT-US07-004 | Verificar que, apos o banimento administrativo, as credenciais do usuario excluido deixam de ser aceitas pelo sistema. | Alta | RF09, US07-CA02, CAG02 |
+| CT-US07-005 | Verificar que o sistema impede que um usuario comum acesse a listagem administrativa de usuarios. | Alta | RF08, CAG02 |
+| CT-US07-006 | Verificar que o sistema impede que um usuario comum exclua contas de outros usuarios. | Alta | RF09, CAG02 |
+| CT-US07-007 | Verificar que o sistema retorna erro HTTP 404 (Not Found) quando o administrador tenta excluir uma conta inexistente. | Media | RF09, CAG01 |
+| CT-US07-008 | Verificar que o sistema impede o administrador de acessar movimentacoes, saldo ou extrato de qualquer usuario, mesmo quando o identificador do usuario alvo e informado explicitamente. | Alta | RN03, US07-CA03, CAG02 |
+
+---
+
+## Matriz de Rastreabilidade Complementar
+
+| Requisito / Regra | Condicoes de Teste Associadas |
+|:---|:---|
+| RF05 | CT-US06-001, CT-US06-002, CT-US06-004, CT-US06-005, CT-US06-006 |
+| RF06 | CT-US06-001, CT-US06-002, CT-US06-003, CT-US06-006 |
+| RF08 | CT-US07-001, CT-US07-002, CT-US07-005 |
+| RF09 | CT-US07-003, CT-US07-004, CT-US07-006, CT-US07-007 |
+| RN02 | CT-US06-005 |
+| RN03 | CT-US07-002, CT-US07-008 |
+| CAG01 | CT-US06-006, CT-US07-007 |
+| CAG02 | CT-US06-005, CT-US07-002, CT-US07-004, CT-US07-005, CT-US07-006, CT-US07-008 |
+| CAG03 | CT-US06-002 |

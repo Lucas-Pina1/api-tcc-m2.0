@@ -20,8 +20,9 @@
 **Rastreabilidade:** RF01, RN01, US01-CA01, CAG01, CAG02, CT-US01-001, CT-US01-010, CT-US01-011, CT-US01-014, CT-US01-015, CT-US01-016
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
-- O e-mail "usuario.teste@email.com" nao esta cadastrado no sistema.
+- O e-mail "<usuario.teste@email.com>" nao esta cadastrado no sistema.
 
 | Passo | Acao | Resultado Esperado |
 |:---|:---|:---|
@@ -31,12 +32,13 @@
 | 4 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` e "Usuario cadastrado com sucesso." |
 | 5 | Verificar a presenca do objeto `data.user` na resposta. | O objeto `data.user` esta presente e contem os campos `id`, `name`, `email`, `role` e `createdAt`. |
 | 6 | Verificar o campo `data.user.id`. | O valor e um UUID v4 valido. |
-| 7 | Verificar o campo `data.user.email`. | O valor e "usuario.teste@email.com". |
+| 7 | Verificar o campo `data.user.email`. | O valor e "<usuario.teste@email.com>". |
 | 8 | Verificar o campo `data.user.role`. | O valor e "user". |
 | 9 | Verificar a ausencia do campo `password` em `data.user`. | O campo `password` NAO esta presente no objeto retornado. |
 
 **Pos-condicoes:**
-- O usuario "usuario.teste@email.com" esta registrado no sistema com role "user".
+
+- O usuario "<usuario.teste@email.com>" esta registrado no sistema com role "user".
 
 ---
 
@@ -46,8 +48,9 @@
 **Rastreabilidade:** RF01, RN01, US01-CA02, CAG01, CT-US01-002, CT-US01-009, CT-US01-012
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
-- O e-mail "duplicado@email.com" ja esta cadastrado no sistema.
+- O e-mail "<duplicado@email.com>" ja esta cadastrado no sistema.
 
 | Passo | Acao | Resultado Esperado |
 |:---|:---|:---|
@@ -60,6 +63,7 @@
 | 7 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` indica duplicidade de e-mail. |
 
 **Pos-condicoes:**
+
 - Nenhum novo registro e criado no sistema.
 
 ---
@@ -70,6 +74,7 @@
 **Rastreabilidade:** RF01, CAG05, CAG01, CT-US01-003, CT-US01-004, CT-US01-005, CT-US01-006, CT-US01-013, CT-US01-016
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -84,6 +89,7 @@
 | 8 | Verificar o campo `details.missingFields`. | O array contem o valor "name". |
 
 **Pos-condicoes:**
+
 - Nenhum novo registro e criado no sistema.
 
 ---
@@ -94,6 +100,7 @@
 **Rastreabilidade:** RF01, CAG05, CT-US01-007
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -104,6 +111,7 @@
 | 4 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` e "Formato de e-mail invalido." |
 
 **Pos-condicoes:**
+
 - Nenhum novo registro e criado no sistema.
 
 ---
@@ -114,6 +122,7 @@
 **Rastreabilidade:** RF01, CAG05, CT-US01-008
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -125,8 +134,9 @@
 | 5 | Verificar o status code da resposta. | O status code retornado e `201 Created`. |
 
 **Pos-condicoes:**
-- O usuario "limite2@email.com" e registrado no sistema (cleanup necessario).
-- Nenhum registro e criado para "limite@email.com".
+
+- O usuario "<limite2@email.com>" e registrado no sistema (cleanup necessario).
+- Nenhum registro e criado para "<limite@email.com>".
 
 ---
 
@@ -140,8 +150,9 @@
 **Rastreabilidade:** RF02, US02-CA01, CAG01, CAG02, CT-US02-001, CT-US02-008, CT-US02-009, CT-US02-010, CT-US02-013, CT-US02-019
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
-- O usuario "login.teste@email.com" esta cadastrado no sistema com a senha "senha123".
+- O usuario "<login.teste@email.com>" esta cadastrado no sistema com a senha "senha123".
 
 | Passo | Acao | Resultado Esperado |
 |:---|:---|:---|
@@ -155,6 +166,7 @@
 | 8 | Decodificar o payload do token JWT. | O payload contem as claims `id`, `email` e `role` correspondentes ao usuario autenticado. |
 
 **Pos-condicoes:**
+
 - O token JWT retornado e valido e possui tempo de expiracao configurado.
 
 ---
@@ -165,9 +177,10 @@
 **Rastreabilidade:** RF02, US02-CA02, CAG01, CAG02, CT-US02-002, CT-US02-003, CT-US02-007, CT-US02-011
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
-- O usuario "login.teste@email.com" esta cadastrado com a senha "senha123".
-- O e-mail "inexistente@email.com" nao esta cadastrado no sistema.
+- O usuario "<login.teste@email.com>" esta cadastrado com a senha "senha123".
+- O e-mail "<inexistente@email.com>" nao esta cadastrado no sistema.
 
 | Passo | Acao | Resultado Esperado |
 |:---|:---|:---|
@@ -181,6 +194,7 @@
 | 8 | Comparar `mensagem_email_errado` com `mensagem_senha_errada`. | As mensagens sao identicas, impedindo enumeracao de usuarios. |
 
 **Pos-condicoes:**
+
 - Nenhum token e gerado em nenhuma das tentativas.
 
 ---
@@ -191,6 +205,7 @@
 **Rastreabilidade:** RF02, CAG05, CAG01, CT-US02-004, CT-US02-005, CT-US02-006, CT-US02-012, CT-US02-019
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -208,6 +223,7 @@
 | 11 | Verificar o campo `details.missingFields`. | O array contem o valor "password". |
 
 **Pos-condicoes:**
+
 - Nenhum token e gerado.
 
 ---
@@ -222,6 +238,7 @@
 **Rastreabilidade:** RF02, CAG02, CT-US02-014
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui um token JWT valido obtido via login.
 
@@ -234,6 +251,7 @@
 | 5 | Verificar a ausencia do campo `password` em `data.user`. | O campo `password` NAO esta presente no objeto retornado. |
 
 **Pos-condicoes:**
+
 - O estado do sistema permanece inalterado.
 
 ---
@@ -244,6 +262,7 @@
 **Rastreabilidade:** RF02, CAG02, CT-US02-015
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -254,6 +273,7 @@
 | 4 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` e "Token de autenticacao nao fornecido." |
 
 **Pos-condicoes:**
+
 - Nenhum dado do usuario e exposto.
 
 ---
@@ -264,6 +284,7 @@
 **Rastreabilidade:** RF02, CAG02, CT-US02-016, CT-US02-018
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 
 | Passo | Acao | Resultado Esperado |
@@ -277,6 +298,7 @@
 | 7 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` e "Token invalido." |
 
 **Pos-condicoes:**
+
 - Nenhum dado do usuario e exposto.
 
 ---
@@ -287,6 +309,7 @@
 **Rastreabilidade:** RF02, CAG02, CT-US02-017
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O testador possui um token JWT que ja ultrapassou o tempo de expiracao configurado.
 
@@ -298,6 +321,7 @@
 | 4 | Verificar o campo `message` no corpo da resposta. | O valor do campo `message` e "Token expirado. Realize o login novamente." |
 
 **Pos-condicoes:**
+
 - Nenhum dado do usuario e exposto.
 - O usuario deve realizar um novo login para obter um token valido.
 
@@ -309,8 +333,9 @@
 **Rastreabilidade:** RF01, RF02, US01-CA01, US02-CA01, CAG01, CAG02
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
-- O e-mail "e2e.teste@email.com" nao esta cadastrado no sistema.
+- O e-mail "<e2e.teste@email.com>" nao esta cadastrado no sistema.
 
 | Passo | Acao | Resultado Esperado |
 |:---|:---|:---|
@@ -318,11 +343,12 @@
 | 2 | Enviar uma requisicao `POST /api/auth/login` com o corpo: `{"email": "e2e.teste@email.com", "password": "senha123"}` | O status code retornado e `200 OK` e o campo `data.token` contem um JWT valido. |
 | 3 | Armazenar o valor de `data.token` como `<token>`. | O token e armazenado para uso no proximo passo. |
 | 4 | Enviar uma requisicao `GET /api/auth/profile` com o header `Authorization: Bearer <token>`. | O status code retornado e `200 OK`. |
-| 5 | Verificar o campo `data.user.email`. | O valor e "e2e.teste@email.com". |
+| 5 | Verificar o campo `data.user.email`. | O valor e "<e2e.teste@email.com>". |
 | 6 | Verificar o campo `data.user.name`. | O valor e "E2E Teste". |
 
 **Pos-condicoes:**
-- O usuario "e2e.teste@email.com" esta registrado e autenticado no sistema.
+
+- O usuario "<e2e.teste@email.com>" esta registrado e autenticado no sistema.
 
 ---
 
@@ -336,6 +362,7 @@
 **Rastreabilidade:** RF03, US03-CA01, US03-CA02, CAG01, CAG02, CT-US03-001, CT-US03-011, CT-US03-012
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui um token JWT valido.
 
@@ -348,6 +375,7 @@
 | 5 | Verificar o status code da resposta. | O status code retornado e `201 Created`. |
 
 **Pos-condicoes:**
+
 - As movimentacoes de receita e despesa sao persistidas no banco de dados e vinculadas ao usuario dono do token.
 
 ---
@@ -358,6 +386,7 @@
 **Rastreabilidade:** RF03, RN04, US03-CA01, CAG05, CT-US03-002, CT-US03-003
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui um token JWT valido.
 
@@ -370,6 +399,7 @@
 | 5 | Verificar o status code da resposta. | O status code retornado e `400 Bad Request`. |
 
 **Pos-condicoes:**
+
 - Nenhuma movimentacao invalida e inserida na base de dados.
 
 ---
@@ -380,6 +410,7 @@
 **Rastreabilidade:** RF03, US03-CA02, CAG05, CT-US03-004, CT-US03-005, CT-US03-006, CT-US03-007, CT-US03-008, CT-US03-009, CT-US03-010
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui um token JWT valido.
 
@@ -393,6 +424,7 @@
 | 6 | Verificar a resposta de erro para o campo status. | O status code e `400 Bad Request` indicando que o status deve ser "pendente" ou "pago". |
 
 **Pos-condicoes:**
+
 - O sistema mantem a integridade estrutural, nao persistindo dados inconsistentes.
 
 ---
@@ -407,6 +439,7 @@
 **Rastreabilidade:** RF04, US04-CA01, CAG01, CT-US04-001, CT-US04-006, CT-US04-007
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui uma movimentacao financeira com status "pendente".
 
@@ -417,6 +450,7 @@
 | 3 | Verificar os atributos atualizados no corpo da resposta. | O campo `status` e alterado para "pago" e a data de atualizacao (`updatedAt`) e modificada. |
 
 **Pos-condicoes:**
+
 - A movimentacao fica registrada com status definitivo de "pago".
 
 ---
@@ -427,6 +461,7 @@
 **Rastreabilidade:** RF04, RN05, US04-CA02, CT-US04-002, CT-US04-003
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui uma movimentacao ja efetivada com status "pago".
 
@@ -438,6 +473,7 @@
 | 4 | Verificar a resposta de erro da tentativa de reversao. | O sistema informa que movimentacoes ja pagas nao podem retornar ao status pendente. |
 
 **Pos-condicoes:**
+
 - O status da movimentacao assegura a imutabilidade apos pagamento, permanecendo "pago".
 
 ---
@@ -448,6 +484,7 @@
 **Rastreabilidade:** RN02, CAG01, CAG02, CT-US04-004, CT-US04-005
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - Dois usuarios distintos estao autenticados (Usuario A e Usuario B).
 - O Usuario A possui uma movimentacao "pendente".
@@ -460,6 +497,7 @@
 | 4 | Verificar o status code retornado. | O status code e `404 Not Found`. |
 
 **Pos-condicoes:**
+
 - A movimentacao do Usuario A permanece inalterada e restrita a ele proprio.
 
 ---
@@ -474,6 +512,7 @@
 **Rastreabilidade:** RF07, US05-CA01, CAG01, CT-US05-001, CT-US05-005
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui uma movimentacao financeira com status "pendente".
 
@@ -485,6 +524,7 @@
 | 4 | Verificar o retorno da pesquisa. | O status code retornado na busca e `404 Not Found`. |
 
 **Pos-condicoes:**
+
 - O registro e removido em definitivo do sistema.
 
 ---
@@ -495,6 +535,7 @@
 **Rastreabilidade:** RF07, RN06, US05-CA02, CAG04, CT-US05-002
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - O usuario esta autenticado e possui uma movimentacao financeira com status "pago".
 
@@ -505,6 +546,7 @@
 | 3 | Verificar a mensagem explicativa. | O retorno informa que movimentacoes ja pagas nao podem ser deletadas do sistema. |
 
 **Pos-condicoes:**
+
 - A movimentacao consolidada permanece no sistema sem modificacoes.
 
 ---
@@ -515,6 +557,7 @@
 **Rastreabilidade:** RN02, CAG01, CAG02, CT-US05-003, CT-US05-004
 
 **Pre-condicoes:**
+
 - O servidor da API esta em execucao.
 - Dois usuarios distintos estao autenticados (Usuario A e Usuario B).
 - O Usuario A possui uma movimentacao "pendente".
@@ -527,6 +570,7 @@
 | 4 | Verificar o status code retornado. | O status code retornado e `404 Not Found`. |
 
 **Pos-condicoes:**
+
 - Os registros do Usuario A e a base de dados mantem-se integros e inalterados por ataques ou erros de rota.
 
 ---
@@ -552,6 +596,152 @@
 
 ---
 
+## 6. US06 - Visualizacao de Saldo e Extrato
+
+---
+
+### TC-OPT-023 - Consulta de extrato e saldo com historico vazio
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF05, RF06, US06-CA01, CAG01, CT-US06-001, CT-US06-006
+
+**Pre-condicoes:**
+
+- O servidor da API esta em execucao.
+- O usuario esta autenticado e possui um token JWT valido.
+- O usuario autenticado nao possui movimentacoes registradas.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `GET /api/transactions` (ou endpoint correspondente da consulta principal) com o header `Authorization: Bearer <token_valido>`. | A API processa a requisicao sem erros. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `200 OK`. |
+| 3 | Verificar o campo `success` no corpo da resposta. | O valor do campo `success` e `true`. |
+| 4 | Verificar a estrutura do corpo da resposta. | A resposta contem os campos `message` e `data`, com `data.transactions` e `data.balance`. |
+| 5 | Verificar o campo `data.transactions`. | O valor do campo e um array vazio. |
+| 6 | Verificar o campo `data.balance`. | O valor do campo e `0`. |
+
+**Pos-condicoes:**
+
+- Nenhuma movimentacao e criada ou alterada no sistema.
+
+---
+
+### TC-OPT-024 - Consulta consolidada com saldo negativo, ordem cronologica e isolamento de dados
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF05, RF06, RN02, US06-CA01, US06-CA02, CAG01, CAG02, CAG03, CT-US06-002, CT-US06-003, CT-US06-004, CT-US06-005, CT-US06-006
+
+**Pre-condicoes:**
+
+- O servidor da API esta em execucao.
+- O Usuario A esta autenticado e possui um token JWT valido.
+- O Usuario B esta autenticado e possui um token JWT valido.
+- Existem exatamente 3 movimentacoes do Usuario A registradas nas datas `2026-05-02`, `2026-05-10` e `2026-05-20`, com valores `50.00` (despesa), `100.00` (receita) e `300.00` (despesa), respectivamente.
+- Existe pelo menos 1 movimentacao do Usuario B registrada na base.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `GET /api/transactions` (ou endpoint correspondente da consulta principal) utilizando o token do Usuario A. | A API processa a consulta considerando apenas os dados do Usuario A. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `200 OK`. |
+| 3 | Verificar a quantidade de itens em `data.transactions`. | O array contem exatamente 3 movimentacoes. |
+| 4 | Verificar a origem dos registros retornados. | Nenhuma movimentacao pertencente ao Usuario B esta presente na resposta. |
+| 5 | Verificar a ordenacao do extrato retornado. | As movimentacoes sao exibidas em ordem cronologica pelas datas `2026-05-02`, `2026-05-10` e `2026-05-20`. |
+| 6 | Verificar o campo `data.balance`. | O saldo retornado e `-250.00`, resultante de `100.00 - 350.00`. |
+| 7 | Verificar os valores individuais exibidos no extrato. | Os valores e tipos retornados correspondem exatamente aos lancamentos previamente registrados para o Usuario A. |
+
+**Pos-condicoes:**
+
+- Nenhuma movimentacao do Usuario A ou do Usuario B e alterada durante a consulta.
+
+---
+
+## 7. US07 - Gestao de Contas por Administrador
+
+---
+
+### TC-OPT-025 - Listagem administrativa de usuarios com exposicao minima de dados
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF08, RN03, US07-CA01, US07-CA03, CAG01, CAG02, CT-US07-001, CT-US07-002
+
+**Pre-condicoes:**
+
+- O servidor da API esta em execucao.
+- Existe um usuario com perfil `admin` autenticado e com token JWT valido.
+- Existem pelo menos 2 usuarios comuns cadastrados no sistema.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `GET /api/admin/users` com o header `Authorization: Bearer <token_admin>`. | A API processa a requisicao da area administrativa. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `200 OK`. |
+| 3 | Verificar o campo `success` no corpo da resposta. | O valor do campo `success` e `true`. |
+| 4 | Verificar o campo `data.users`. | O campo esta presente e contem a lista de usuarios cadastrados. |
+| 5 | Verificar a estrutura de cada item retornado na lista. | Cada usuario contem apenas os campos cadastrais necessarios, como `id`, `name`, `email` e `role`. |
+| 6 | Verificar a ausencia de dados sensiveis na resposta. | Nenhum item da lista contem campos como `password`, `token`, `balance`, `transactions` ou qualquer detalhe financeiro. |
+
+**Pos-condicoes:**
+
+- Nenhuma conta e alterada ou removida durante a execucao do teste.
+
+---
+
+### TC-OPT-026 - Banimento administrativo com invalidacao de credenciais
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF09, US07-CA02, CAG01, CAG02, CT-US07-003, CT-US07-004
+
+**Pre-condicoes:**
+
+- O servidor da API esta em execucao.
+- Existe um usuario com perfil `admin` autenticado e com token JWT valido.
+- Existe um usuario comum ativo, com credenciais conhecidas, passivel de exclusao administrativa.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `DELETE /api/admin/users/{id}` utilizando o ID do usuario comum alvo e o token do administrador. | A API processa a exclusao administrativa da conta. |
+| 2 | Verificar o status code da resposta. | O status code retornado indica sucesso na operacao (`200 OK` ou `204 No Content`). |
+| 3 | Enviar uma requisicao `POST /api/auth/login` com o e-mail e a senha do usuario excluido. | A API rejeita a autenticacao das credenciais invalidadas. |
+| 4 | Verificar o retorno da tentativa de login do usuario excluido. | O status code retornado e `401 Unauthorized` e a mensagem informa que as credenciais sao invalidas. |
+| 5 | Enviar uma nova requisicao `GET /api/admin/users` com o token do administrador. | A API retorna a lista atualizada de usuarios. |
+| 6 | Verificar a presenca do usuario removido na listagem atualizada. | O usuario excluido nao esta mais presente em `data.users`. |
+
+**Pos-condicoes:**
+
+- A conta do usuario alvo permanece removida do sistema.
+- As credenciais do usuario removido permanecem invalidadas.
+
+---
+
+### TC-OPT-027 - Protecao de acesso e privacidade na administracao da plataforma
+
+**Prioridade:** Alta
+**Rastreabilidade:** RF08, RF09, RN03, US07-CA03, CAG01, CAG02, CT-US07-005, CT-US07-006, CT-US07-007, CT-US07-008
+
+**Pre-condicoes:**
+
+- O servidor da API esta em execucao.
+- Existe um usuario com perfil `admin` autenticado e com token JWT valido.
+- Existe um usuario comum autenticado e com token JWT valido.
+- Existe um segundo usuario comum com movimentacoes financeiras registradas.
+
+| Passo | Acao | Resultado Esperado |
+|:---|:---|:---|
+| 1 | Enviar uma requisicao `GET /api/admin/users` utilizando o token do usuario comum. | A API bloqueia o acesso a funcionalidade administrativa. |
+| 2 | Verificar o status code da resposta. | O status code retornado e `401 Unauthorized` ou `403 Forbidden`. |
+| 3 | Enviar uma requisicao `DELETE /api/admin/users/{id}` utilizando o token do usuario comum e o ID de outro usuario. | A API bloqueia a tentativa de exclusao sem privilegio administrativo. |
+| 4 | Verificar o status code da resposta. | O status code retornado e `401 Unauthorized` ou `403 Forbidden`. |
+| 5 | Enviar uma requisicao `DELETE /api/admin/users/{id_inexistente}` utilizando o token do administrador. | A API processa a busca do usuario alvo e nao localiza a conta. |
+| 6 | Verificar o status code da resposta. | O status code retornado e `404 Not Found`. |
+| 7 | Enviar uma requisicao `GET /api/users/{id}/transactions` (ou rota equivalente de consulta financeira) utilizando o token do administrador e o ID do usuario comum com movimentacoes. | A API impede o acesso administrativo aos dados financeiros do usuario alvo. |
+| 8 | Verificar o retorno da tentativa de acesso financeiro. | O status code retornado e `403 Forbidden` ou `404 Not Found`, sem exposicao de saldo, extrato ou movimentacoes no corpo da resposta. |
+
+**Pos-condicoes:**
+
+- Nenhuma conta e removida pelo usuario comum.
+- Nenhum dado financeiro de usuario comum e exposto ao administrador.
+
+---
+
 ## Resumo da Suite
 
 | Metrica | Valor |
@@ -564,4 +754,21 @@
 | Cenarios positivos | 6 (TC-OPT-001, TC-OPT-006, TC-OPT-009, TC-OPT-014, TC-OPT-017, TC-OPT-020) |
 | Cenarios negativos | 15 (TC-OPT-002 a TC-OPT-005, TC-OPT-007, TC-OPT-008, TC-OPT-010 a TC-OPT-012, TC-OPT-015, TC-OPT-016, TC-OPT-018, TC-OPT-019, TC-OPT-021, TC-OPT-022) |
 | Cenarios end-to-end | 1 (TC-OPT-013) |
-| Reducao em relacao a suite original | 59 → 22 (reducao de 62%) |
+
+---
+
+## Matriz de Rastreabilidade Complementar
+
+| Requisito / Regra | Casos de Teste Otimizados |
+|:---|:---|
+| RF05 | TC-OPT-023, TC-OPT-024 |
+| RF06 | TC-OPT-023, TC-OPT-024 |
+| RF08 | TC-OPT-025, TC-OPT-027 |
+| RF09 | TC-OPT-026, TC-OPT-027 |
+| RN02 | TC-OPT-024 |
+| RN03 | TC-OPT-025, TC-OPT-027 |
+| CAG01 | TC-OPT-023, TC-OPT-024, TC-OPT-025, TC-OPT-026, TC-OPT-027 |
+| CAG02 | TC-OPT-024, TC-OPT-025, TC-OPT-026, TC-OPT-027 |
+| CAG03 | TC-OPT-024 |
+
+---
