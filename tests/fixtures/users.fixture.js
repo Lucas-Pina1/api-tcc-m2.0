@@ -28,6 +28,11 @@ const VALID_USER_E2E = {
   password: 'senha123',
 };
 
+const DEFAULT_ADMIN_CREDENTIALS = {
+  email: 'admin@fincontrol.local',
+  password: 'admin123',
+};
+
 const VALID_USER_DUPLICATE_BASE = {
   name: 'Primeiro Cadastro',
   email: 'duplicado@email.com',
@@ -105,6 +110,7 @@ module.exports = {
   VALID_USER,
   VALID_USER_LOGIN,
   VALID_USER_E2E,
+  DEFAULT_ADMIN_CREDENTIALS,
   VALID_USER_DUPLICATE_BASE,
   DUPLICATE_USER_SAME_EMAIL,
   DUPLICATE_USER_UPPERCASE,

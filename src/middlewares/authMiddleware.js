@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
+const userModel = require('../models/userModel');
 const AppError = require('../utils/AppError');
 
 /**
@@ -35,8 +36,17 @@ function authMiddleware(req, _res, next) {
     req.userEmail = decoded.email;
     req.userRole = decoded.role;
 
+    const authenticatedUser = userModel.findById(decoded.id);
+    if (!authenticatedUser) {
+      throw new AppError('Usuário autenticado não encontrado ou removido.', 401);
+    }
+
     return next();
   } catch (error) {
+    if (error.isOperational) {
+      throw error;
+    }
+
     if (error.name === 'TokenExpiredError') {
       throw new AppError('Token expirado. Realize o login novamente.', 401);
     }

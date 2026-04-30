@@ -32,6 +32,36 @@ function createTransaction(userId, data) {
 }
 
 /**
+ * Retorna o extrato cronolÃ³gico e o saldo consolidado do usuÃ¡rio (US06).
+ *
+ * @param {string} userId - ID do usuÃ¡rio autenticado.
+ * @returns {{ transactions: Array<object>, balance: number }}
+ */
+function getStatement(userId) {
+  const transactions = transactionModel
+    .findByUserId(userId)
+    .slice()
+    .sort((first, second) => {
+      const byDate = first.date.localeCompare(second.date);
+      if (byDate !== 0) {
+        return byDate;
+      }
+
+      return first.createdAt.localeCompare(second.createdAt);
+    });
+
+  const balance = transactions.reduce((total, transaction) => {
+    if (transaction.category === 'receita') {
+      return total + transaction.value;
+    }
+
+    return total - transaction.value;
+  }, 0);
+
+  return { transactions, balance };
+}
+
+/**
  * Efetiva o pagamento de uma movimentação (US04).
  *
  * @param {string} userId - ID do usuário que fez a requisição.
@@ -86,6 +116,7 @@ function deleteTransaction(userId, transactionId) {
 
 module.exports = {
   createTransaction,
+  getStatement,
   payTransaction,
   deleteTransaction,
 };

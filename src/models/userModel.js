@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 /**
@@ -10,7 +11,26 @@ const { v4: uuidv4 } = require('uuid');
  * substituída por um ORM/driver de banco no futuro.
  */
 
+const DEFAULT_ADMIN = Object.freeze({
+  id: '00000000-0000-0000-0000-000000000001',
+  name: 'Administrador da Plataforma',
+  email: 'admin@fincontrol.local',
+  password: bcrypt.hashSync('admin123', 10),
+  role: 'admin',
+  createdAt: '2026-04-30T00:00:00.000Z',
+});
+
 const users = [];
+
+function seedDefaultAdmin() {
+  const existingAdmin = users.find((user) => user.email === DEFAULT_ADMIN.email);
+
+  if (!existingAdmin) {
+    users.push({ ...DEFAULT_ADMIN });
+  }
+}
+
+seedDefaultAdmin();
 
 /**
  * Busca um usuário pelo e-mail.
@@ -41,7 +61,7 @@ function create(userData) {
     name: userData.name,
     email: userData.email,
     password: userData.password,
-    role: 'user',
+    role: userData.role || 'user',
     createdAt: new Date().toISOString(),
   };
 
@@ -61,11 +81,29 @@ function findAll() {
 }
 
 /**
+ * Remove um usuÃ¡rio pelo ID.
+ * @param {string} id
+ * @returns {object|null}
+ */
+function remove(id) {
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index === -1) {
+    return null;
+  }
+
+  const [removedUser] = users.splice(index, 1);
+  const { password, ...userWithoutPassword } = removedUser;
+  return userWithoutPassword;
+}
+
+/**
  * Limpa todos os usuários do array (somente para testes).
  * Permite isolamento entre suítes de teste.
  */
 function clearAll() {
   users.length = 0;
+  seedDefaultAdmin();
 }
 
 module.exports = {
@@ -73,5 +111,6 @@ module.exports = {
   findById,
   create,
   findAll,
+  remove,
   clearAll,
 };

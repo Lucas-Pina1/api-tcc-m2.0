@@ -8,18 +8,18 @@ const swaggerDefinition = {
     description: `
 API RESTful para controle financeiro pessoal.
 
-## Visão Geral
-O **FinControl Flow** permite que usuários gerenciem suas finanças pessoais,
+## Visao Geral
+O **FinControl Flow** permite que usuarios gerenciem suas financas pessoais,
 registrando receitas e despesas, acompanhando saldos e extratos.
 
-## Autenticação
-A API utiliza **JWT (JSON Web Token)** para autenticação.
+## Autenticacao
+A API utiliza **JWT (JSON Web Token)** para autenticacao.
 
-### Fluxo de Autenticação:
-1. **Cadastro** — \`POST /api/auth/register\` cria uma conta
-2. **Login** — \`POST /api/auth/login\` retorna um token JWT
-3. **Uso do Token** — Enviar o token no header \`Authorization: Bearer <token>\`
-4. **Acesso** — Rotas protegidas validam o token automaticamente
+### Fluxo de Autenticacao:
+1. **Cadastro** - \`POST /api/auth/register\` cria uma conta
+2. **Login** - \`POST /api/auth/login\` retorna um token JWT
+3. **Uso do Token** - Enviar o token no header \`Authorization: Bearer <token>\`
+4. **Acesso** - Rotas protegidas validam o token automaticamente
 
 ### Formato do Header:
 \`\`\`
@@ -27,14 +27,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 \`\`\`
 
 ## Status Codes
-| Código | Significado |
+| Codigo | Significado |
 |--------|-------------|
-| 200 | Operação realizada com sucesso |
+| 200 | Operacao realizada com sucesso |
 | 201 | Recurso criado com sucesso |
-| 400 | Dados de entrada inválidos |
-| 401 | Não autenticado / token inválido |
-| 404 | Recurso não encontrado |
+| 400 | Dados de entrada invalidos |
+| 401 | Nao autenticado / token invalido |
+| 403 | Acesso negado |
+| 404 | Recurso nao encontrado |
 | 409 | Conflito (ex: e-mail duplicado) |
+| 422 | Violacao de regra de negocio |
 | 500 | Erro interno do servidor |
     `,
     contact: {
@@ -64,30 +66,49 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
             type: 'string',
             format: 'uuid',
             example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-            description: 'Identificador único do usuário (UUID v4)',
+            description: 'Identificador unico do usuario (UUID v4)',
           },
           name: {
             type: 'string',
             example: 'Lucas Pina',
-            description: 'Nome completo do usuário',
+            description: 'Nome completo do usuario',
           },
           email: {
             type: 'string',
             format: 'email',
             example: 'lucas@email.com',
-            description: 'E-mail do usuário',
+            description: 'E-mail do usuario',
           },
           role: {
             type: 'string',
             enum: ['user', 'admin'],
             example: 'user',
-            description: 'Perfil de acesso do usuário',
+            description: 'Perfil de acesso do usuario',
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             example: '2026-04-26T14:00:00.000Z',
-            description: 'Data de criação da conta',
+            description: 'Data de criacao da conta',
+          },
+        },
+      },
+      AdminUser: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            format: 'uuid',
+            example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+          },
+          name: {
+            type: 'string',
+            example: 'Lucas Pina',
+          },
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'lucas@email.com',
           },
         },
       },
@@ -98,35 +119,35 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
             type: 'string',
             format: 'uuid',
             example: 'a1b2c3d4-5678-90ab-cdef-1234567890ab',
-            description: 'Identificador único da movimentação',
+            description: 'Identificador unico da movimentacao',
           },
           userId: {
             type: 'string',
             format: 'uuid',
             example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-            description: 'ID do usuário dono da movimentação',
+            description: 'ID do usuario dono da movimentacao',
           },
           description: {
             type: 'string',
-            example: 'Salário',
-            description: 'Descrição da movimentação',
+            example: 'Salario',
+            description: 'Descricao da movimentacao',
           },
-          amount: {
+          value: {
             type: 'number',
-            example: 5000.50,
-            description: 'Valor da movimentação',
+            example: 5000.5,
+            description: 'Valor da movimentacao',
           },
           date: {
             type: 'string',
             format: 'date',
             example: '2026-05-05',
-            description: 'Data da movimentação',
+            description: 'Data da movimentacao',
           },
-          type: {
+          category: {
             type: 'string',
             enum: ['receita', 'despesa'],
             example: 'receita',
-            description: 'Categoria da movimentação',
+            description: 'Categoria da movimentacao',
           },
           status: {
             type: 'string',
@@ -135,11 +156,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
             description: 'Status atual',
           },
           createdAt: {
-            type: 'string',
-            format: 'date-time',
-            example: '2026-04-26T14:00:00.000Z',
-          },
-          updatedAt: {
             type: 'string',
             format: 'date-time',
             example: '2026-04-26T14:00:00.000Z',
@@ -155,7 +171,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
           },
           message: {
             type: 'string',
-            example: 'Operação realizada com sucesso.',
+            example: 'Operacao realizada com sucesso.',
           },
           data: {
             type: 'object',
@@ -171,12 +187,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
           },
           message: {
             type: 'string',
-            example: 'Descrição clara do erro.',
+            example: 'Descricao clara do erro.',
           },
           details: {
             type: 'object',
             nullable: true,
-            description: 'Detalhes adicionais sobre o erro (quando aplicável)',
+            description: 'Detalhes adicionais sobre o erro (quando aplicavel)',
           },
         },
       },

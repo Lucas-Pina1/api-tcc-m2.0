@@ -2,7 +2,7 @@ const transactionService = require('../services/transactionService');
 const { sendSuccess } = require('../utils/responseHelper');
 
 /**
- * TransactionController — Camada de orquestração HTTP para Movimentações.
+ * TransactionController - Camada de orquestracao HTTP para Movimentacoes.
  *
  * Responsabilidades:
  * - Extrair dados do request
@@ -12,7 +12,7 @@ const { sendSuccess } = require('../utils/responseHelper');
 
 /**
  * POST /api/transactions
- * Registra uma nova movimentação financeira. (US03)
+ * Registra uma nova movimentacao financeira. (US03)
  */
 async function create(req, res, next) {
   try {
@@ -24,8 +24,21 @@ async function create(req, res, next) {
 }
 
 /**
+ * GET /api/transactions
+ * Retorna o extrato e saldo do usuario autenticado. (US06)
+ */
+async function list(req, res, next) {
+  try {
+    const statement = transactionService.getStatement(req.userId);
+    return sendSuccess(res, 200, 'Extrato financeiro obtido com sucesso.', statement);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * PATCH /api/transactions/:id/pay
- * Efetiva o pagamento de uma movimentação. (US04)
+ * Efetiva o pagamento de uma movimentacao. (US04)
  */
 async function pay(req, res, next) {
   try {
@@ -39,7 +52,7 @@ async function pay(req, res, next) {
 
 /**
  * DELETE /api/transactions/:id
- * Exclui uma movimentação. (US05)
+ * Exclui uma movimentacao. (US05)
  */
 async function remove(req, res, next) {
   try {
@@ -51,4 +64,4 @@ async function remove(req, res, next) {
   }
 }
 
-module.exports = { create, pay, remove };
+module.exports = { create, list, pay, remove };
