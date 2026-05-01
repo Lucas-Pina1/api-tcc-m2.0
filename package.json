@@ -9,8 +9,11 @@
     "test": "mocha --config tests/.mocharc.yml",
     "test:report": "npm test",
     "perf:smoke": "k6 run tests/performance/smoke.js",
+    "perf:smoke:report": "cross-env K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/perf-smoke-report.html k6 run tests/performance/smoke.js",
     "perf:login": "k6 run tests/performance/login-load.js",
-    "perf:statement": "k6 run tests/performance/statement-load.js"
+    "perf:login:report": "cross-env K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/perf-login-report.html k6 run tests/performance/login-load.js",
+    "perf:statement": "k6 run tests/performance/statement-load.js",
+    "perf:statement:report": "cross-env K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=reports/perf-statement-report.html k6 run tests/performance/statement-load.js"
   },
   "keywords": [
     "fincontrol",
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "chai": "^6.2.2",
+    "cross-env": "^10.1.0",
     "mocha": "^11.7.5",
     "mochawesome": "^7.1.4",
     "supertest": "^7.2.2"
