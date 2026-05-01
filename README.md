@@ -118,4 +118,4 @@ Também há testes de performance com k6:
   - senha: `admin123`
 
 
-Para visão completa da arquitetura, fluxos, endpoints e estratégia de qualidade, consulte (https://github.com/Lucas-Pina1/api-tcc-m2.0/wiki)]
+Para visão completa da arquitetura, fluxos, endpoints e estratégia de qualidade, consulte https://github.com/Lucas-Pina1/api-tcc-m2.0/wiki
