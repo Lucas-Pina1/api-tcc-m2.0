@@ -79,7 +79,7 @@ npm start
 
 ## Swagger
 
-A especificação OpenAPI é montada a partir de [docs/swagger.js](/D:/Users/lucas/Cursos/M2_julio_de_lima/Projetos/FinControl%20Flow-tcc-m2.0/docs/swagger.js) e das anotações JSDoc das rotas em `src/routes/`.
+A especificação OpenAPI é montada a partir de docs/swagger.js e das anotações JSDoc das rotas em `src/routes/`.
 
 Para explorar a API:
 
@@ -89,7 +89,7 @@ Para explorar a API:
 
 ## Testes
 
-A suíte automatizada atual usa Mocha, Chai, SuperTest e Mochawesome, com configuração em [tests/.mocharc.yml](/D:/Users/lucas/Cursos/M2_julio_de_lima/Projetos/FinControl%20Flow-tcc-m2.0/tests/.mocharc.yml).
+A suíte automatizada atual usa Mocha, Chai, SuperTest e Mochawesome, com configuração em tests/.mocharc.yml
 
 Execução:
 
@@ -100,8 +100,8 @@ npm.cmd test
 Estado validado neste workspace:
 
 - `58` testes passando
-- relatório HTML em [reports/fincontrol-flow-test-report.html](/D:/Users/lucas/Cursos/M2_julio_de_lima/Projetos/FinControl%20Flow-tcc-m2.0/reports/fincontrol-flow-test-report.html)
-- relatório JSON em [reports/fincontrol-flow-test-report.json](/D:/Users/lucas/Cursos/M2_julio_de_lima/Projetos/FinControl%20Flow-tcc-m2.0/reports/fincontrol-flow-test-report.json)
+- relatório HTML em reports/fincontrol-flow-test-report.html
+- relatório JSON em reports/fincontrol-flow-test-report.json
 
 Também há testes de performance com k6:
 
