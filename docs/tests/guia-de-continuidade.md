@@ -39,20 +39,18 @@ reports/                        # Relatórios HTML/JSON gerados pelo Mochawesome
 - Node.js 18+
 - Arquivo `.env` configurado com `JWT_SECRET` e `JWT_EXPIRES_IN`
 
-### Comandos
+### Comando oficial
 
 ```bash
 # Instalar dependências (caso necessário)
 npm install
 
-# Rodar todos os testes
-npm test
-
-# Rodar testes e gerar relatório HTML
-npm run test:report
+# Rodar toda a suíte e gerar o relatório Mochawesome
+npm.cmd test
 ```
 
 O relatório HTML é gerado automaticamente em `reports/fincontrol-flow-test-report.html`.
+O script `test:report` foi mantido apenas como alias de compatibilidade e executa exatamente a mesma suíte.
 
 ---
 
@@ -161,3 +159,63 @@ describe('POST /api/transactions', function () {
 - [x] Cobertura E2E de Auth (US01, US02)
 - [x] Testes para endpoints de transações (Épico 02 - US03, US04, US05)
 - [x] Correção de bug de validação para valor `0` em transações no serviço (`transactionService.js`)
+
+---
+
+## 7. Continuidade da Sprint - Épico 03 e Épico 04
+
+### 7.1 O que foi automatizado
+
+- `TC-OPT-023` e `TC-OPT-024` em `tests/api/statement.test.js`
+- `TC-OPT-025`, `TC-OPT-026` e `TC-OPT-027` em `tests/api/admin-users.test.js`
+- Helper novo `tests/helpers/auth.js` para criação de usuário autenticado e login administrativo
+- Fixtures JSON novas em `tests/fixtures/statement-us06.json` e `tests/fixtures/admin-us07.json`
+
+### 7.2 O que permaneceu manual
+
+- Não houve caso formal de `US06` ou `US07` mantido manualmente
+- A recomendação manual complementar permanece apenas para exploração ad hoc de Swagger, mensagens de erro e navegação fora dos fluxos documentados
+
+### 7.3 Estrutura criada
+
+```text
+tests/
+├── api/
+│   ├── statement.test.js
+│   └── admin-users.test.js
+├── helpers/
+│   ├── request.js
+│   ├── auth.js
+│   └── cleanup.helper.js
+└── fixtures/
+    ├── statement-us06.json
+    └── admin-us07.json
+```
+
+### 7.4 Ajuste funcional realizado para suportar a automação
+
+- `src/services/adminService.js` passou a retornar `role` na listagem administrativa, alinhando a API ao critério de aceite `US07-CA01`
+
+### 7.5 Como executar
+
+```bash
+npm.cmd test
+```
+
+Esse comando único executa:
+- `tests/integration/**/*.test.js`
+- `tests/api/**/*.test.js`
+
+Todos os resultados são consolidados no mesmo relatório Mochawesome.
+
+### 7.6 Observações importantes
+
+- A suíte total passou com `58 passing`
+- O `tests/.mocharc.yml` agora inclui `tests/api/**/*.test.js` além da suíte legada em `tests/integration/**/*.test.js`
+- Os logs `[ERROR]` no terminal durante a execução correspondem aos cenários negativos validados pela própria suíte e não indicam falha do teste
+
+### 7.7 Próximos passos sugeridos
+
+- Avaliar migração progressiva dos testes legados de `statement.test.js` e `admin-users.test.js` para eliminar sobreposição de cobertura
+- Adicionar validações contratuais de resposta para reduzir risco de regressão estrutural
+- Expandir o helper de autenticação para suportar futuras suítes de administração e cenários multiusuário

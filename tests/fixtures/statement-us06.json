@@ -1,0 +1,42 @@
+{
+  "primaryUser": {
+    "name": "Usuario Extrato A",
+    "email": "extrato.a@email.com",
+    "password": "senha123"
+  },
+  "secondaryUser": {
+    "name": "Usuario Extrato B",
+    "email": "extrato.b@email.com",
+    "password": "senha123"
+  },
+  "transactions": {
+    "income": {
+      "description": "Freelance",
+      "value": 100.0,
+      "date": "2026-05-10",
+      "category": "receita",
+      "status": "pago"
+    },
+    "firstExpense": {
+      "description": "Transporte",
+      "value": 50.0,
+      "date": "2026-05-02",
+      "category": "despesa",
+      "status": "pago"
+    },
+    "secondExpense": {
+      "description": "Mercado",
+      "value": 300.0,
+      "date": "2026-05-20",
+      "category": "despesa",
+      "status": "pendente"
+    },
+    "foreignTransaction": {
+      "description": "Lancamento de outro usuario",
+      "value": 999.0,
+      "date": "2026-05-15",
+      "category": "receita",
+      "status": "pago"
+    }
+  }
+}
