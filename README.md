@@ -109,6 +109,55 @@ Também há testes de performance com k6:
 - `npm run perf:login`
 - `npm run perf:statement`
 
+## CI/CD — GitHub Actions
+
+O projeto possui integração contínua configurada via GitHub Actions. A cada push ou pull request na branch `main`, uma pipeline automatizada executa toda a suíte de testes para garantir que nenhuma alteração quebre o comportamento esperado da API.
+
+### Como funciona
+
+O workflow está definido em `.github/workflows/main.yml` e segue o fluxo:
+
+1. **Checkout** — clona o repositório no runner
+2. **Setup Node.js** — configura o ambiente com cache de dependências
+3. **Instalação** — executa `npm ci` (instalação limpa e determinística a partir do `package-lock.json`)
+4. **Testes** — roda `npm test`, que dispara o Mocha com a configuração de `tests/.mocharc.yml`
+5. **Relatório** — faz upload do relatório Mochawesome como artefato do GitHub Actions
+
+### Estratégia de matriz
+
+Os testes são executados em **duas versões do Node.js** simultaneamente (18 e 20), garantindo compatibilidade com as versões LTS suportadas:
+
+```yaml
+strategy:
+  matrix:
+    node-version: [18, 20]
+```
+
+### Variáveis de ambiente no CI
+
+O workflow define variáveis de ambiente específicas para o contexto de CI, sem depender de um arquivo `.env`:
+
+| Variável | Valor no CI | Finalidade |
+|---|---|---|
+| `JWT_SECRET` | `ci-test-secret` | Segredo usado para assinar e verificar tokens JWT |
+| `JWT_EXPIRES_IN` | `1h` | Tempo de expiração dos tokens |
+| `PORT` | `3000` | Porta da aplicação (usada internamente pelo SuperTest) |
+
+### Relatório de testes
+
+Após cada execução, o relatório HTML e JSON gerado pelo Mochawesome é salvo como artefato do GitHub Actions com retenção de 14 dias. O upload acontece **mesmo quando os testes falham** (`if: always()`), facilitando a análise de falhas.
+
+Para acessar o relatório:
+
+1. Acesse a aba **Actions** no repositório do GitHub
+2. Clique na execução desejada
+3. Na seção **Artifacts**, baixe `test-report-node-18` ou `test-report-node-20`
+4. Abra o arquivo `fincontrol-flow-test-report.html` no navegador
+
+### Arquivo do workflow
+
+O arquivo completo está em [`.github/workflows/main.yml`](.github/workflows/main.yml).
+
 ## Limitações Atuais
 
 - Persistência em memória nos models, sem banco de dados
