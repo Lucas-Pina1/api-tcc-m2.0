@@ -34,7 +34,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "chai": "^6.2.2",
+    "chai": "^4.5.0",
     "cross-env": "^10.1.0",
     "mocha": "^11.7.5",
     "mochawesome": "^7.1.4",
