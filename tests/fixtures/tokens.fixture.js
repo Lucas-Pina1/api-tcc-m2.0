@@ -6,6 +6,7 @@
  */
 
 const jwt = require('jsonwebtoken');
+const authConfig = require('../../src/config/auth');
 
 /**
  * Token com assinatura adulterada (segredo incorreto).
@@ -19,16 +20,15 @@ const TOKEN_WITHOUT_BEARER = 'token_sem_prefixo_bearer';
 
 /**
  * Gera um token expirado sob demanda utilizando o segredo real.
- * O token é criado com expiração retroativa de 1 segundo.
+ * Usa o mesmo segredo de src/config/auth.js para garantir que
+ * jwt.verify lance TokenExpiredError (e não JsonWebTokenError).
  *
  * @returns {string} Token JWT expirado
  */
 function generateExpiredToken() {
-  const secret = process.env.JWT_SECRET || 'fincontrol_flow_super_secret_key_2026';
-
   return jwt.sign(
     { id: 'expired-user-id', email: 'expired@email.com', role: 'user' },
-    secret,
+    authConfig.secret,
     { expiresIn: '0s' }
   );
 }
